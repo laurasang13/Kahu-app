@@ -1,0 +1,50 @@
+const { validationResult } = require('express-validator')
+const prisma = require('../prisma/client')
+
+const getPlanes = async (req, res, next) => {
+  try {
+    const planes = await prisma.planNutricional.findMany({
+      where: { mascota_id: req.params.mascotaId },
+      orderBy: { fecha: 'desc' }
+    })
+    res.json(planes)
+  } catch (error) {
+    next(error)
+  }
+}
+
+const createPlan = async (req, res, next) => {
+  try {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() })
+    }
+
+    const { mascota_id, fecha, ingredientes, proporciones, calorias_total, notas_ia } = req.body
+
+    const plan = await prisma.planNutricional.create({
+      data: {
+        mascota_id,
+        fecha: new Date(fecha),
+        ingredientes,
+        proporciones,
+        calorias_total,
+        notas_ia
+      }
+    })
+    res.status(201).json(plan)
+  } catch (error) {
+    next(error)
+  }
+}
+
+const deletePlan = async (req, res, next) => {
+  try {
+    await prisma.planNutricional.delete({ where: { id: req.params.id } })
+    res.json({ message: 'Plan eliminado correctamente' })
+  } catch (error) {
+    next(error)
+  }
+}
+
+module.exports = { getPlanes, createPlan, deletePlan }

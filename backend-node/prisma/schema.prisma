@@ -1,0 +1,73 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Rol {
+  USER
+  ADMIN
+}
+
+model Usuario {
+  id            String     @id @default(uuid())
+  nombre        String
+  email         String     @unique
+  password_hash String
+  ciudad        String?
+  rol           Rol     @default(USER)
+  created_at    DateTime   @default(now())
+  mascotas      Mascota[]
+}
+
+model Mascota {
+  id             String               @id @default(uuid())
+  usuario_id     String
+  usuario        Usuario              @relation(fields: [usuario_id], references: [id])
+  nombre         String
+  raza           String
+  peso_kg        Float
+  edad_meses     Int
+  sexo           String
+  alergias       String?
+  created_at     DateTime             @default(now())
+  planes         PlanNutricional[]
+  historial_vet  HistorialVeterinario[]
+  chat_historial ChatHistorial[]
+}
+
+model PlanNutricional {
+  id            String   @id @default(uuid())
+  mascota_id    String
+  mascota       Mascota  @relation(fields: [mascota_id], references: [id])
+  fecha         DateTime
+  ingredientes  String
+  proporciones  String
+  calorias_total Float
+  notas_ia      String?
+  created_at    DateTime @default(now())
+}
+
+model HistorialVeterinario {
+  id           String   @id @default(uuid())
+  mascota_id   String
+  mascota      Mascota  @relation(fields: [mascota_id], references: [id])
+  fecha_visita DateTime
+  motivo       String
+  descripcion  String
+  tratamiento  String
+  proxima_cita DateTime?
+  created_at   DateTime @default(now())
+}
+
+model ChatHistorial {
+  id         String   @id @default(uuid())
+  mascota_id String
+  mascota    Mascota  @relation(fields: [mascota_id], references: [id])
+  rol        String
+  mensaje    String
+  created_at DateTime @default(now())
+}
