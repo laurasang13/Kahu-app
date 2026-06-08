@@ -1,0 +1,225 @@
+.container {
+  min-height: 100vh;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: var(--nav-bg);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.logo { width: 60px; height: auto; }
+
+.headerRight { display: flex; align-items: center; gap: 10px; }
+
+.langBtn {
+  background: var(--surface);
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--olive-deep);
+}
+
+.logoutBtn {
+  background: none;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.main {
+  flex: 1;
+  padding: 20px 20px 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.greeting { 
+    display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  margin: 0 0 6px;
+}
+
+.subtitle {
+  font-size: 15px;
+  color: var(--muted);
+  margin: 0;
+}
+
+.sectionTitle {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 0 0 12px;
+}
+
+.petsList {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+}
+
+.petCard {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  min-width: 150px;
+  box-shadow: var(--card-shadow);
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.petActive {
+  border-color: var(--olive);
+  background: var(--hero-bg);
+}
+
+.petEmoji { font-size: 24px; }
+
+.petName {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.petBreed { font-size: 12px; color: var(--muted); }
+
+.activeCard {
+  background: var(--hero-bg);
+  border-radius: var(--radius);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.activeName {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--hero-ink);
+  margin: 0 0 4px;
+}
+
+.activeMeta { font-size: 14px; color: var(--hero-muted); margin: 0; }
+.activeAllergy { font-size: 13px; color: var(--hero-muted); margin: 4px 0 0; }
+
+.chatBtn {
+  width: 100%;
+  padding: 14px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: var(--olive);
+  color: var(--on-olive);
+  font-size: 15px;
+  font-weight: 600;
+  transition: transform 0.1s ease;
+}
+
+.chatBtn:active { transform: scale(0.97); }
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.emptyEmoji { font-size: 48px; }
+.emptyText { font-size: 15px; color: var(--muted); margin: 0; }
+
+.addBtn {
+  padding: 12px 24px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: var(--olive);
+  color: var(--on-olive);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.actionsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.actionCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  padding: 16px 10px;
+  border: none;
+  box-shadow: var(--card-shadow);
+  transition: transform 0.1s ease;
+}
+
+.actionCard:active { transform: scale(0.97); }
+.actionIcon { font-size: 24px; }
+.actionLabel { font-size: 13px; font-weight: 600; color: var(--ink); }
+
+.navbar {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
+  background: var(--nav-bg);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0 24px;
+  border-top: 1px solid var(--line);
+}
+
+.navItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  padding: 6px 20px;
+}
+
+.navIcon { font-size: 22px; }
+.navLabel { font-size: 11px; font-weight: 600; color: var(--muted); }
