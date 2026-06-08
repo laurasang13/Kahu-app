@@ -37,7 +37,8 @@ async def registrar_receta(
                 "proporciones": proporciones,
                 "calorias_total": calorias_total,
                 "notas_ia": notas_ia
-            }
+            },
+            headers={"Authorization": f"Bearer {os.getenv('INTERNAL_SERVICE_TOKEN')}"}
         )
         if response.status_code == 201:
             return "✅ Plan nutricional guardado correctamente."
@@ -67,7 +68,8 @@ async def actualizar_registro_vet(
                 "descripcion": descripcion,
                 "tratamiento": tratamiento,
                 "proxima_cita": proxima_cita
-            }
+            },
+            headers={"Authorization": f"Bearer {os.getenv('INTERNAL_SERVICE_TOKEN')}"}
         )
         if response.status_code == 201:
             return "✅ Registro veterinario guardado correctamente."

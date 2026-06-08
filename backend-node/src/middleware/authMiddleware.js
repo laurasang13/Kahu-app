@@ -9,6 +9,12 @@ const authMiddleware = (req, res, next) => {
 
   const token = authHeader.split(' ')[1]
 
+  // Token interno para comunicación entre backends
+  if (token === process.env.INTERNAL_SERVICE_TOKEN) {
+    req.user = { id: 'system', rol: 'ADMIN' }
+    return next()
+  }
+
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET)
     req.user = decoded
