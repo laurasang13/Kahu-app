@@ -1,0 +1,164 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  padding: 24px;
+  position: relative;
+}
+
+.langBtn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: var(--surface);
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--olive-deep);
+  letter-spacing: 0.05em;
+}
+
+.card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 32px 28px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: var(--card-shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  animation: kahuFade 0.4s ease;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.emoji {
+  font-size: 40px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.subtitle {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.label {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.input {
+  padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--line);
+  background: var(--bg);
+  font-size: 15px;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.2s ease;
+  width: 100%;
+}
+
+.input:focus {
+  border-color: var(--olive);
+}
+
+.sexBtns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.sexBtn {
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--line);
+  background: var(--bg);
+  color: var(--muted);
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  transition: all 0.15s ease;
+}
+
+.sexActive {
+  background: var(--olive);
+  color: var(--on-olive);
+  border-color: var(--olive);
+}
+
+.btnPrimary {
+  width: 100%;
+  padding: 16px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: var(--olive);
+  color: var(--on-olive);
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 4px;
+  transition: filter 0.15s ease, transform 0.1s ease;
+}
+
+.btnPrimary:active {
+  transform: scale(0.97);
+}
+
+.btnPrimary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.error {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: oklch(0.52 0.16 28);
+  background: oklch(0.92 0.05 28);
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  text-align: center;
+}

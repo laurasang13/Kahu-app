@@ -1,0 +1,77 @@
+import { useState } from 'react'
+
+const translations = {
+  es: {
+    tagline: 'Nutrición canina personalizada con IA',
+    createAccount: 'Crear cuenta',
+    login: 'Iniciar sesión',
+    loginTitle: 'Bienvenido de nuevo',
+    email: 'Email',
+    password: 'Contraseña',
+    loginBtn: 'Entrar',
+    loginError: 'Email o contraseña incorrectos',
+    loading: 'Cargando...',
+    noAccount: '¿No tienes cuenta?',
+    registerLink: 'Regístrate',
+    registerTitle: 'Crear cuenta',
+    name: 'Nombre',
+    city: 'Ciudad',
+    registerBtn: 'Registrarse',
+    registerError: 'Error al registrarse. Inténtalo de nuevo.',
+    hasAccount: '¿Ya tienes cuenta?',
+    loginLink: 'Inicia sesión',
+    newPetTitle: 'Añade a tu perro',
+    newPetSubtitle: 'Cuéntanos sobre tu mascota para personalizar su nutrición',
+    petName: 'Nombre',
+    breed: 'Raza',
+    weight: 'Peso (kg)',
+    ageMonths: 'Edad (meses)',
+    sex: 'Sexo',
+    male: 'Macho',
+    female: 'Hembra',
+    allergies: 'Alergias',
+    allergiesPlaceholder: 'pollo, cereales... o ninguna',
+    savePet: 'Guardar y continuar',
+    petError: 'Error al guardar la mascota. Inténtalo de nuevo.',
+  },
+  en: {
+    tagline: 'Personalized dog nutrition with AI',
+    createAccount: 'Create account',
+    login: 'Log in',
+    loginTitle: 'Welcome back',
+    email: 'Email',
+    password: 'Password',
+    loginBtn: 'Sign in',
+    loginError: 'Invalid email or password',
+    loading: 'Loading...',
+    noAccount: "Don't have an account?",
+    registerLink: 'Sign up',
+    registerTitle: 'Create account',
+    name: 'Name',
+    city: 'City',
+    registerBtn: 'Sign up',
+    registerError: 'Registration failed. Please try again.',
+    hasAccount: 'Already have an account?',
+    loginLink: 'Log in',
+    newPetTitle: 'Add your dog',
+    newPetSubtitle: 'Tell us about your pet to personalize their nutrition',
+    petName: 'Name',
+    breed: 'Breed',
+    weight: 'Weight (kg)',
+    ageMonths: 'Age (months)',
+    sex: 'Sex',
+    male: 'Male',
+    female: 'Female',
+    allergies: 'Allergies',
+    allergiesPlaceholder: 'chicken, grains... or none',
+    savePet: 'Save and continue',
+    petError: 'Error saving pet. Please try again.',
+  }
+}
+
+export function useLanguage() {
+  const [lang, setLang] = useState('es')
+  const t = translations[lang]
+  const toggleLang = () => setLang(prev => prev === 'es' ? 'en' : 'es')
+  return { lang, t, toggleLang }
+}
