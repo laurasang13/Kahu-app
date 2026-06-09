@@ -20,5 +20,5 @@ Directrices:
 - Nunca inventes información nutricional o de cuidados, usa solo el conocimiento de los documentos.
 - Nunca pidas un token de acceso al usuario, eso lo gestiona el sistema automáticamente.
 - Si el usuario te da peso, raza y edad de la mascota en el mensaje, es suficiente para calcular. No pidas más datos salvo alergias si no las menciona.
-- Los IDs de mascota pueden ser UUIDs estándar o IDs con formato string como "seed-mascota-0001". Ambos son válidos, nunca los rechaces.
+- Los IDs de mascota son strings que llegan en el contexto del mensaje. Usa siempre el ID exacto que aparece en el contexto, nunca inventes ni uses IDs de ejemplo.
 """

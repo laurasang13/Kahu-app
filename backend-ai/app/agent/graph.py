@@ -17,6 +17,7 @@ TOOLS = [registrar_receta, actualizar_registro_vet]
 
 class AgentState(TypedDict):
     messages: Annotated[list, operator.add]
+    mascota_id: str
 
 def get_llm():
     return ChatGroq(
@@ -33,7 +34,7 @@ def agent_node(state: AgentState):
     docs = retriever.invoke(last_message)
     context = "\n\n".join([d.page_content for d in docs])
 
-    system = SystemMessage(content=f"{SYSTEM_PROMPT}\n\nContexto relevante de los documentos:\n{context}")
+    system = SystemMessage(content=f"{SYSTEM_PROMPT}\n\nContexto relevante de los documentos:\n{context}\n\nID de mascota activa: {state['mascota_id']}\nUsa SIEMPRE este ID exacto al llamar a las tools.")
     messages = [system] + state["messages"]
 
     llm = get_llm()

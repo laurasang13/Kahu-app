@@ -28,14 +28,15 @@ async def chat(request: ChatRequest):
         messages = parse_historial(request.historial)
         messages.append(HumanMessage(content=request.mensaje))
 
-        result = await kahu_graph.ainvoke({"messages": messages})
+        result = await kahu_graph.ainvoke({"messages": messages, "mascota_id": request.mascota_id})
 
         last_message = result["messages"][-1]
         return ChatResponse(respuesta=last_message.content)
 
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
-
 @router.get("/chat/history/{mascota_id}")
 async def get_history(mascota_id: str):
     # El historial se obtiene del backend Node, FastAPI solo lo recibe como contexto
@@ -47,3 +48,4 @@ async def get_history(mascota_id: str):
             f"{os.getenv('NODE_BACKEND_URL')}/api/chat/history/{mascota_id}"
         )
         return response.json()
+
