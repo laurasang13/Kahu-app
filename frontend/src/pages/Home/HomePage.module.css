@@ -10,13 +10,16 @@
 .header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 16px 20px;
+  gap: 12px;
+  padding: 14px 16px;
   background: var(--nav-bg);
   backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
   position: sticky;
   top: 0;
   z-index: 10;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
 }
 
 .logo { width: 60px; height: auto; }

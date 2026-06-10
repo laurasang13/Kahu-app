@@ -4,6 +4,7 @@ import { useChat } from '../../context/ChatContext'
 import { useMascota } from '../../context/MascotaContext'
 import { useLanguage } from '../../hooks/useLanguage'
 import styles from './ChatPage.module.css'
+import ReactMarkdown from 'react-markdown'
 
 export default function ChatPage() {
   const navigate = useNavigate()
@@ -61,7 +62,9 @@ export default function ChatPage() {
         {mensajes.map((msg, i) => (
           <div key={i} className={`${styles.message} ${msg.rol === 'user' ? styles.userMsg : styles.aiMsg}`}>
             {msg.rol === 'assistant' && <span className={styles.aiAvatar}>🤖</span>}
-            <div className={styles.msgBubble}>{msg.mensaje}</div>
+            <div className={styles.msgBubble}>
+              <ReactMarkdown>{msg.mensaje}</ReactMarkdown>
+            </div>
           </div>
         ))}
         {loading && (
