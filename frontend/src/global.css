@@ -30,6 +30,12 @@
   --ai-bg: oklch(0.935 0.03 128);
 }
 
+#root {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
 html, body, #root {
   height: 100%;
   background: var(--bg);

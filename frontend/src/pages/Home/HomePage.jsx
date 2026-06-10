@@ -3,6 +3,7 @@ import { useAuth } from '../../context/AuthContext'
 import { useMascota } from '../../context/MascotaContext'
 import { useLanguage } from '../../hooks/useLanguage'
 import styles from './HomePage.module.css'
+import Navbar from '../../components/Navbar/Navbar'
 
 export default function HomePage() {
   const navigate = useNavigate()
@@ -92,20 +93,8 @@ export default function HomePage() {
         </div>
       </main>
 
-      <nav className={styles.navbar}>
-        <button className={styles.navItem} onClick={() => navigate('/home')}>
-          <span className={styles.navIcon}>🏠</span>
-          <span className={styles.navLabel}>{t.home}</span>
-        </button>
-        <button className={styles.navItem} onClick={() => navigate('/chat')}>
-          <span className={styles.navIcon}>💬</span>
-          <span className={styles.navLabel}>{t.chat}</span>
-        </button>
-        <button className={styles.navItem} onClick={() => navigate('/profile')}>
-          <span className={styles.navIcon}>👤</span>
-          <span className={styles.navLabel}>{t.profile}</span>
-        </button>
-      </nav>
+      <Navbar />
+      
     </div>
   )
 }

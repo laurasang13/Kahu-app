@@ -45,6 +45,7 @@ export default function ChatPage() {
           {mascotaActiva && <span className={styles.headerSub}>{mascotaActiva.nombre}</span>}
         </div>
         <button className={styles.langBtn} onClick={toggleLang}>{lang === 'es' ? 'EN' : 'ES'}</button>
+        <button className={styles.clearBtn} onClick={() => limpiarChat()}>🗑️</button>
       </header>
 
       <div className={styles.messages}>

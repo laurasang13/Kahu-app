@@ -169,6 +169,30 @@
 
 .editBtns { display: flex; gap: 10px; }
 
+.sexBtns {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+}
+
+.sexBtn {
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--line);
+  background: var(--bg);
+  color: var(--muted);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.15s ease;
+}
+
+.sexActive {
+  background: var(--olive);
+  color: var(--on-olive);
+  border-color: var(--olive);
+}
+
 .saveBtn {
   flex: 1;
   padding: 10px;

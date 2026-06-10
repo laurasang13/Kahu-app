@@ -52,6 +52,9 @@ const translations = {
     save: 'Guardar',
     cancel: 'Cancelar',
     confirmDelete: '¿Seguro que quieres eliminar esta mascota?',
+    dietType: 'Tipo de dieta',
+    cooked: 'Cocinada',
+    mixed: 'Mixta',
   },
 
   en: {
@@ -105,6 +108,9 @@ const translations = {
     save: 'Save',
     cancel: 'Cancel',
     confirmDelete: 'Are you sure you want to delete this pet?',
+    dietType: 'Diet type',
+    cooked: 'Cooked',
+    mixed: 'Mixed',
  }
 }
 

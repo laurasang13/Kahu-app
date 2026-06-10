@@ -54,6 +54,14 @@
   color: var(--olive-deep);
 }
 
+.clearBtn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
 .messages {
   flex: 1;
   overflow-y: auto;

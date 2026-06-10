@@ -3,8 +3,8 @@
   background: var(--bg);
   display: flex;
   flex-direction: column;
-  max-width: 480px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: 860px;
 }
 
 .header {
@@ -80,10 +80,9 @@
 
 .petsList {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
-  overflow-x: auto;
   padding-bottom: 4px;
-  scrollbar-width: none;
 }
 
 .petCard {
@@ -93,12 +92,12 @@
   background: var(--surface);
   border-radius: var(--radius-sm);
   padding: 12px 16px;
-  min-width: 150px;
   box-shadow: var(--card-shadow);
   cursor: pointer;
   border: 2px solid transparent;
   transition: all 0.15s ease;
-  flex-shrink: 0;
+  flex: 1 1 140px;
+  min-width: 140px;
 }
 
 .petActive {
@@ -223,3 +222,24 @@
 
 .navIcon { font-size: 22px; }
 .navLabel { font-size: 11px; font-weight: 600; color: var(--muted); }
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 90vw;
+  }
+
+  .actionsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 860px;
+    padding: 0 40px;
+  }
+
+  .main {
+    padding: 30px 0 120px;
+  }
+}

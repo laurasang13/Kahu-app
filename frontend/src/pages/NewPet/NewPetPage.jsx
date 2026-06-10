@@ -14,7 +14,8 @@ export default function NewPetPage() {
     peso_kg: '',
     edad_meses: '',
     sexo: '',
-    alergias: ''
+    alergias: '',
+    tipo_dieta: 'BARF'
   })
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -101,6 +102,27 @@ export default function NewPetPage() {
             <label className={styles.label}>{t.allergies}</label>
             <input className={styles.input} type="text" name="alergias"
               value={form.alergias} onChange={handleChange} placeholder={t.allergiesPlaceholder} />
+          </div>
+
+          <div className={styles.field}>
+            <label className={styles.label}>{t.dietType}</label>
+            <div className={styles.sexBtns}>
+              <button type="button"
+                className={`${styles.sexBtn} ${form.tipo_dieta === 'BARF' ? styles.sexActive : ''}`}
+                onClick={() => setForm(prev => ({ ...prev, tipo_dieta: 'BARF' }))}>
+                🥩 BARF
+              </button>
+              <button type="button"
+                className={`${styles.sexBtn} ${form.tipo_dieta === 'cocinada' ? styles.sexActive : ''}`}
+                onClick={() => setForm(prev => ({ ...prev, tipo_dieta: 'cocinada' }))}>
+                🍳 {t.cooked}
+              </button>
+              <button type="button"
+                className={`${styles.sexBtn} ${form.tipo_dieta === 'mixta' ? styles.sexActive : ''}`}
+                onClick={() => setForm(prev => ({ ...prev, tipo_dieta: 'mixta' }))}>
+                🔀 {t.mixed}
+              </button>
+            </div>
           </div>
 
           <button className={styles.btnPrimary} type="submit" disabled={loading || !form.sexo}>

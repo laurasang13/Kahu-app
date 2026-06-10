@@ -21,7 +21,8 @@ export default function ProfilePage() {
       peso_kg: mascota.peso_kg,
       edad_meses: mascota.edad_meses,
       sexo: mascota.sexo,
-      alergias: mascota.alergias || ''
+      alergias: mascota.alergias || '',
+      tipo_dieta: mascota.tipo_dieta || 'BARF'
     })
   }
 
@@ -84,6 +85,15 @@ export default function ProfilePage() {
                   </div>
                   <input className={styles.input} value={form.alergias}
                     onChange={e => setForm(p => ({ ...p, alergias: e.target.value }))} />
+                  <div className={styles.sexBtns}>
+                    {['BARF', 'cocinada', 'mixta'].map(tipo => (
+                      <button key={tipo} type="button"
+                        className={`${styles.sexBtn} ${form.tipo_dieta === tipo ? styles.sexActive : ''}`}
+                        onClick={() => setForm(p => ({ ...p, tipo_dieta: tipo }))}>
+                        {tipo}
+                      </button>
+                    ))}
+                  </div>
                   <div className={styles.editBtns}>
                     <button className={styles.saveBtn} onClick={handleSave}>{t.save}</button>
                     <button className={styles.cancelBtn} onClick={() => setEditando(null)}>{t.cancel}</button>
@@ -111,17 +121,8 @@ export default function ProfilePage() {
         </button>
       </main>
 
-      <nav className={styles.navbar}>
-        <button className={styles.navItem} onClick={() => navigate('/home')}>
-          <span>🏠</span><span className={styles.navLabel}>{t.home}</span>
-        </button>
-        <button className={styles.navItem} onClick={() => navigate('/chat')}>
-          <span>💬</span><span className={styles.navLabel}>{t.chat}</span>
-        </button>
-        <button className={styles.navItem} onClick={() => navigate('/profile')}>
-          <span>👤</span><span className={styles.navLabel}>{t.profile}</span>
-        </button>
-      </nav>
+      <Navbar />
+      
     </div>
   )
 }

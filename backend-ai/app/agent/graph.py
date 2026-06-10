@@ -19,11 +19,12 @@ class AgentState(TypedDict):
     messages: Annotated[list, operator.add]
     mascota_id: str
 
-def get_llm():
+def get_llm(use_second_key=False):
+    api_key = os.getenv("GROQ_SECOND_API_KEY") if use_second_key else os.getenv("GROQ_API_KEY")
     return ChatGroq(
         model="llama-3.3-70b-versatile",
         temperature=0.3,
-        api_key=os.getenv("GROQ_API_KEY")
+        api_key=api_key
     ).bind_tools(TOOLS)
 
 def agent_node(state: AgentState):
@@ -37,8 +38,16 @@ def agent_node(state: AgentState):
     system = SystemMessage(content=f"{SYSTEM_PROMPT}\n\nContexto relevante de los documentos:\n{context}\n\nID de mascota activa: {state['mascota_id']}\nUsa SIEMPRE este ID exacto al llamar a las tools.")
     messages = [system] + state["messages"]
 
-    llm = get_llm()
-    response = llm.invoke(messages)
+    try:
+        llm = get_llm()
+        response = llm.invoke(messages)
+    except Exception as e:
+        if "rate_limit" in str(e).lower() or "429" in str(e):
+            llm = get_llm(use_second_key=True)
+            response = llm.invoke(messages)
+        else:
+            raise
+
     return {"messages": [response]}
 
 def should_continue(state: AgentState):
