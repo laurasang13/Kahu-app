@@ -15,7 +15,8 @@ export default function NewPetPage() {
     edad_meses: '',
     sexo: '',
     alergias: '',
-    tipo_dieta: 'BARF'
+    tipo_dieta: 'BARF',
+    num_tomas: 2
   })
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -122,6 +123,18 @@ export default function NewPetPage() {
                 onClick={() => setForm(prev => ({ ...prev, tipo_dieta: 'mixta' }))}>
                 🔀 {t.mixed}
               </button>
+            </div>
+            <div className={styles.field}>
+              <label className={styles.label}>{t.mealsPerDay}</label>
+              <div className={styles.sexBtns}>
+                {[1, 2, 3].map(n => (
+                  <button key={n} type="button"
+                    className={`${styles.sexBtn} ${form.num_tomas === n ? styles.sexActive : ''}`}
+                    onClick={() => setForm(prev => ({ ...prev, num_tomas: n }))}>
+                    {n} {n === 1 ? t.meal : t.meals}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 

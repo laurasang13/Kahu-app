@@ -55,6 +55,11 @@ const translations = {
     dietType: 'Tipo de dieta',
     cooked: 'Cocinada',
     mixed: 'Mixta',
+    savedMenus: 'Menús guardados',
+    noMenus: 'Aún no hay menús guardados',
+    goToChat: 'Ir al chat',
+    confirmDeletePlan: '¿Seguro que quieres eliminar este menú?',
+    weight: 'Peso',
   },
 
   en: {
@@ -111,6 +116,11 @@ const translations = {
     dietType: 'Diet type',
     cooked: 'Cooked',
     mixed: 'Mixed',
+    savedMenus: 'Saved menus',
+    noMenus: 'No saved menus yet',
+    goToChat: 'Go to chat',
+    confirmDeletePlan: 'Are you sure you want to delete this menu?',
+    weight: 'Weight',
  }
 }
 

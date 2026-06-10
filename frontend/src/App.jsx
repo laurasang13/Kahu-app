@@ -3,6 +3,8 @@ import { AuthProvider } from './context/AuthContext'
 import { MascotaProvider } from './context/MascotaContext'
 import { ChatProvider } from './context/ChatContext'
 import { useAuth } from './context/AuthContext'
+import { UIProvider } from './context/UIContext'
+import PesoModal from './components/PesoModal/PesoModal'
 
 import LandingPage from './pages/Landing/LandingPage'
 import LoginPage from './pages/Login/LoginPage'
@@ -11,6 +13,7 @@ import HomePage from './pages/Home/HomePage'
 import ChatPage from './pages/Chat/ChatPage'
 import ProfilePage from './pages/Profile/ProfilePage'
 import NewPetPage from './pages/NewPet/NewPetPage'
+import MenusPage from './pages/MenuPage/MenusPage'
 
 function PrivateRoute({ children }) {
   const { usuario, loading } = useAuth()
@@ -26,34 +29,31 @@ function AppRoutes() {
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/home" element={
         <PrivateRoute>
-          <MascotaProvider>
-            <ChatProvider>
-              <HomePage />
-            </ChatProvider>
-          </MascotaProvider>
+          <ChatProvider>
+            <HomePage />
+          </ChatProvider>
         </PrivateRoute>
       } />
       <Route path="/chat" element={
         <PrivateRoute>
-          <MascotaProvider>
-            <ChatProvider>
-              <ChatPage />
-            </ChatProvider>
-          </MascotaProvider>
+          <ChatProvider>
+            <ChatPage />
+          </ChatProvider>
         </PrivateRoute>
       } />
       <Route path="/profile" element={
         <PrivateRoute>
-          <MascotaProvider>
-            <ProfilePage />
-          </MascotaProvider>
+          <ProfilePage />
         </PrivateRoute>
       } />
       <Route path="/newpet" element={
         <PrivateRoute>
-          <MascotaProvider>
-            <NewPetPage />
-          </MascotaProvider>
+          <NewPetPage />
+        </PrivateRoute>
+      } />
+      <Route path="/menus/:mascotaId" element={
+        <PrivateRoute>
+          <MenusPage />
         </PrivateRoute>
       } />
     </Routes>
@@ -63,7 +63,12 @@ function AppRoutes() {
 export default function App() {
   return (
     <AuthProvider>
-      <AppRoutes />
+      <UIProvider>
+        <MascotaProvider>
+          <AppRoutes />
+          <PesoModal />
+        </MascotaProvider>
+      </UIProvider>
     </AuthProvider>
   )
 }

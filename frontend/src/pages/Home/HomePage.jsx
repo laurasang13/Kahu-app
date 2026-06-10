@@ -4,17 +4,37 @@ import { useMascota } from '../../context/MascotaContext'
 import { useLanguage } from '../../hooks/useLanguage'
 import styles from './HomePage.module.css'
 import Navbar from '../../components/Navbar/Navbar'
+import { useState, useEffect } from 'react'
+import PesoChart from '../../components/PesoChart/PesoChart'
+import MenuCard from '../../components/MenuCard/MenuCard'
+import { useUI } from '../../context/UIContext'
+
 
 export default function HomePage() {
   const navigate = useNavigate()
   const { usuario, logout } = useAuth()
-  const { mascotas, mascotaActiva, setMascotaActiva } = useMascota()
+  
   const { lang, t, toggleLang } = useLanguage()
-
+  const { mascotas, mascotaActiva, setMascotaActiva, fetchPlanes, eliminarPlan } = useMascota()
   const handleLogout = () => {
     logout()
     navigate('/')
   }
+
+  const [planes, setPlanes] = useState([])
+
+  useEffect(() => {
+    if (mascotaActiva) {
+      fetchPlanes(mascotaActiva.id).then(data => setPlanes(data.slice(0, 3)))
+    }
+  }, [mascotaActiva])
+
+  const handleDeletePlan = async (id) => {
+    await eliminarPlan(id)
+    setPlanes(prev => prev.filter(p => p.id !== id))
+  }
+
+  const { pesoModal, setPesoModal } = useUI()
 
   return (
     <div className={styles.container}>
@@ -74,27 +94,36 @@ export default function HomePage() {
           </div>
         )}
 
-        <div className={styles.quickActions}>
-          <h2 className={styles.sectionTitle}>{t.quickActions}</h2>
-          <div className={styles.actionsGrid}>
-            <button className={styles.actionCard} onClick={() => navigate('/chat')}>
-              <span className={styles.actionIcon}>💬</span>
-              <span className={styles.actionLabel}>{t.chat}</span>
-            </button>
-            <button className={styles.actionCard} onClick={() => navigate('/profile')}>
-              <span className={styles.actionIcon}>🐾</span>
-              <span className={styles.actionLabel}>{t.profile}</span>
-            </button>
-            <button className={styles.actionCard} onClick={() => navigate('/newpet')}>
-              <span className={styles.actionIcon}>➕</span>
-              <span className={styles.actionLabel}>{t.addPet}</span>
-            </button>
+        
+        {planes.length > 0 && (
+          <div className={styles.section}>
+            <div className={styles.sectionHeader}>
+              <h2 className={styles.sectionTitle}>Últimos menús</h2>
+              <button className={styles.seeAll} onClick={() => navigate(`/menus/${mascotaActiva.id}`)}>
+                Ver todos
+              </button>
+            </div>
+            <div className={styles.menusList}>
+              {planes.map(plan => (
+                <MenuCard key={plan.id} plan={plan} onDelete={handleDeletePlan} />
+              ))}
+            </div>
           </div>
-        </div>
+        )}
+
+        {mascotaActiva && (
+          <div className={styles.section}>
+            <h2 className={styles.sectionTitle}>📈 Evolución del peso</h2>
+            <div className={styles.chartCard}>
+              <PesoChart mascotaId={mascotaActiva.id} readOnly />
+            </div>
+          </div>
+        )}
+
       </main>
 
+
       <Navbar />
-      
     </div>
   )
 }

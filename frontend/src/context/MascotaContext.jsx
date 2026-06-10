@@ -56,7 +56,26 @@ export function MascotaProvider({ children }) {
       setMascotaActiva(nuevas[0] || null)
     }
   }
+  const fetchPlanes = async (mascotaId) => {
+  const res = await api.get(`/api/planes/${mascotaId}`)
+    return res.data
+  }
 
+  const eliminarPlan = async (id) => {
+    await api.delete(`/api/planes/${id}`)
+  }
+
+  const fetchRegistrosPeso = async (mascotaId) => {
+  const res = await api.get(`/api/peso/${mascotaId}`)
+    return res.data
+  }
+
+  const addRegistroPeso = async (mascotaId, peso_kg) => {
+  const res = await api.post('/api/peso', { mascota_id: mascotaId, peso_kg })
+    return res.data
+  }
+
+  const mascotaInfo = mascotaActiva ? `Mascota: ${mascotaActiva.nombre}, ${mascotaActiva.raza}, ${mascotaActiva.edad_meses} meses, ${mascotaActiva.peso_kg}kg, alergias: ${mascotaActiva.alergias || 'ninguna'}, tipo de dieta: ${mascotaActiva.tipo_dieta || 'BARF'}, tomas al día: ${mascotaActiva.num_tomas || 2}` : ''
   return (
     <MascotaContext.Provider value={{
       mascotas,
@@ -66,7 +85,11 @@ export function MascotaProvider({ children }) {
       fetchMascotas,
       crearMascota,
       actualizarMascota,
-      eliminarMascota
+      eliminarMascota,
+      fetchPlanes,
+      eliminarPlan,
+      fetchRegistrosPeso,
+      addRegistroPeso
     }}>
       {children}
     </MascotaContext.Provider>

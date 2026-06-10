@@ -1,0 +1,234 @@
+{
+  "info": {
+    "name": "Kahu API",
+    "description": "Colección de endpoints para el proyecto Kahu — Nutrición canina con IA",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "NODE_URL", "value": "http://localhost:3001" },
+    { "key": "AI_URL", "value": "http://localhost:8000" },
+    { "key": "TOKEN", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{NODE_URL}}/api/auth/register",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Patricia\",\n  \"email\": \"patricia@test.com\",\n  \"password\": \"test123\",\n  \"ciudad\": \"Las Palmas\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{NODE_URL}}/api/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"patricia@test.com\",\n  \"password\": \"test123\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Me",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{TOKEN}}" }],
+            "url": "{{NODE_URL}}/api/auth/me"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Mascotas",
+      "item": [
+        {
+          "name": "Get All",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{TOKEN}}" }],
+            "url": "{{NODE_URL}}/api/mascotas"
+          }
+        },
+        {
+          "name": "Get One",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{TOKEN}}" }],
+            "url": "{{NODE_URL}}/api/mascotas/seed-mascota-0001"
+          }
+        },
+        {
+          "name": "Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{TOKEN}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{NODE_URL}}/api/mascotas",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Luna\",\n  \"raza\": \"Border Collie\",\n  \"peso_kg\": 10,\n  \"edad_meses\": 36,\n  \"sexo\": \"hembra\",\n  \"alergias\": \"ninguna\",\n  \"tipo_dieta\": \"BARF\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Update",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{TOKEN}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{NODE_URL}}/api/mascotas/seed-mascota-0001",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"peso_kg\": 11\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{TOKEN}}" }],
+            "url": "{{NODE_URL}}/api/mascotas/seed-mascota-0001"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Planes Nutricionales",
+      "item": [
+        {
+          "name": "Get Planes",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{TOKEN}}" }],
+            "url": "{{NODE_URL}}/api/planes/seed-mascota-0001"
+          }
+        },
+        {
+          "name": "Create Plan",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{TOKEN}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{NODE_URL}}/api/planes",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"mascota_id\": \"seed-mascota-0001\",\n  \"fecha\": \"2026-06-10\",\n  \"ingredientes\": \"pollo, ternera, espinacas\",\n  \"proporciones\": \"70% carne, 20% verduras, 10% visceras\",\n  \"calorias_total\": 1400,\n  \"notas_ia\": \"Plan semanal BARF para Border Collie\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Plan",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{TOKEN}}" }],
+            "url": "{{NODE_URL}}/api/planes/:id"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Historial Veterinario",
+      "item": [
+        {
+          "name": "Get Historial",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{TOKEN}}" }],
+            "url": "{{NODE_URL}}/api/historial-vet/seed-mascota-0001"
+          }
+        },
+        {
+          "name": "Create Registro",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{TOKEN}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{NODE_URL}}/api/historial-vet",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"mascota_id\": \"seed-mascota-0001\",\n  \"fecha_visita\": \"2026-06-10\",\n  \"motivo\": \"Revisión anual\",\n  \"descripcion\": \"Perro en buen estado general\",\n  \"tratamiento\": \"Vacuna antirrábica\",\n  \"proxima_cita\": \"2027-06-10\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Registro",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{TOKEN}}" }],
+            "url": "{{NODE_URL}}/api/historial-vet/:id"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Chat Historial",
+      "item": [
+        {
+          "name": "Get Historial Chat",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{TOKEN}}" }],
+            "url": "{{NODE_URL}}/api/chat/seed-mascota-0001"
+          }
+        },
+        {
+          "name": "Save Mensaje",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{TOKEN}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{NODE_URL}}/api/chat",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"mascota_id\": \"seed-mascota-0001\",\n  \"rol\": \"user\",\n  \"mensaje\": \"Hazme un plan BARF para Luna\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Agente IA (FastAPI)",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "url": "{{AI_URL}}/health"
+          }
+        },
+        {
+          "name": "Chat con Agente",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{AI_URL}}/api/chat",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"mascota_id\": \"seed-mascota-0001\",\n  \"mensaje\": \"Hazme un plan semanal BARF para Luna, Border Collie adulta de 10kg sin alergias\",\n  \"historial\": []\n}"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

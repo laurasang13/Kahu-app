@@ -4,6 +4,7 @@ import { useAuth } from '../../context/AuthContext'
 import { useMascota } from '../../context/MascotaContext'
 import { useLanguage } from '../../hooks/useLanguage'
 import styles from './ProfilePage.module.css'
+import Navbar from '../../components/Navbar/Navbar'
 
 export default function ProfilePage() {
   const navigate = useNavigate()
@@ -22,7 +23,8 @@ export default function ProfilePage() {
       edad_meses: mascota.edad_meses,
       sexo: mascota.sexo,
       alergias: mascota.alergias || '',
-      tipo_dieta: mascota.tipo_dieta || 'BARF'
+      tipo_dieta: mascota.tipo_dieta || 'BARF',
+      num_tomas: mascota.num_tomas || 2
     })
   }
 
@@ -91,6 +93,15 @@ export default function ProfilePage() {
                         className={`${styles.sexBtn} ${form.tipo_dieta === tipo ? styles.sexActive : ''}`}
                         onClick={() => setForm(p => ({ ...p, tipo_dieta: tipo }))}>
                         {tipo}
+                      </button>
+                    ))}
+                  </div>
+                  <div className={styles.sexBtns}>
+                    {[1, 2, 3].map(n => (
+                      <button key={n} type="button"
+                        className={`${styles.sexBtn} ${form.num_tomas === n ? styles.sexActive : ''}`}
+                        onClick={() => setForm(p => ({ ...p, num_tomas: n }))}>
+                        {n} {n === 1 ? t.meal : t.meals}
                       </button>
                     ))}
                   </div>
