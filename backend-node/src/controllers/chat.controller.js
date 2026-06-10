@@ -24,5 +24,15 @@ const savemensaje = async (req, res, next) => {
     next(error)
   }
 }
+const clearHistorial = async (req, res, next) => {
+  try {
+    await prisma.chatHistorial.deleteMany({
+      where: { mascota_id: req.params.mascotaId }
+    })
+    res.json({ message: 'Historial borrado' })
+  } catch (error) {
+    next(error)
+  }
+}
 
-module.exports = { getHistorialChat, savemensaje }
+module.exports = { getHistorialChat, savemensaje, clearHistorial }

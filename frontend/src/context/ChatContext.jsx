@@ -26,14 +26,12 @@ export function ChatProvider({ children }) {
     setLoading(true)
 
     try {
-      // Guardar mensaje del usuario en BD
       await api.post('/api/chat', {
         mascota_id: mascotaActiva.id,
         rol: 'user',
         mensaje: texto
       })
 
-      // Enviar al agente IA con contexto de la mascota
       const mascotaInfo = `Mascota: ${mascotaActiva.nombre}, ${mascotaActiva.raza}, ${mascotaActiva.edad_meses} meses, ${mascotaActiva.peso_kg}kg, alergias: ${mascotaActiva.alergias || 'ninguna'}, tipo de dieta: ${mascotaActiva.tipo_dieta || 'BARF'}`
       const yaHayContexto = mensajes.some(m => m.mensaje?.includes('[Contexto:'))
 
@@ -51,7 +49,6 @@ export function ChatProvider({ children }) {
       const mensajeIA = { rol: 'assistant', mensaje: res.data.respuesta }
       setMensajes(prev => [...prev, mensajeIA])
 
-      // Guardar respuesta IA en BD
       await api.post('/api/chat', {
         mascota_id: mascotaActiva.id,
         rol: 'assistant',
@@ -69,10 +66,19 @@ export function ChatProvider({ children }) {
     }
   }
 
-  const limpiarChat = () => setMensajes([])
+  const limpiarChat = async () => {
+    if (mascotaActiva) {
+      await api.delete(`/api/chat/${mascotaActiva.id}`)
+    }
+    setMensajes([])
+  }
+
+  const yaHayContexto = mensajes.some(m => m.mensaje?.includes('[Contexto:'))
+    console.log('yaHayContexto:', yaHayContexto, 'mensajes:', mensajes.length)
+  const resetLocal = () => setMensajes([])
 
   return (
-    <ChatContext.Provider value={{ mensajes, loading, enviarMensaje, fetchHistorial, limpiarChat }}>
+    <ChatContext.Provider value={{ mensajes, loading, enviarMensaje, fetchHistorial, limpiarChat, resetLocal }}>
       {children}
     </ChatContext.Provider>
   )

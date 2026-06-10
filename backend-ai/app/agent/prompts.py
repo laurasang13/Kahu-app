@@ -32,4 +32,6 @@ Directrices:
   **Día 2**
   ...
 - Nunca uses listas numeradas dentro de listas, ni sublistas anidadas.
+- Los días del plan escríbelos como ## Día 1, ## Día 2, etc.
+- Los nombres de las tomas (Desayuno, Comida, Cena) escríbelos en negrita: **Desayuno:**
 """

@@ -122,8 +122,13 @@
 .msgBubble ul, .msgBubble ol { padding-left: 40px; margin: 8px 0; }
 .msgBubble li { margin-bottom: 6px; margin-top: 0px;}
 .msgBubble strong { font-weight: 700; }
-.msgBubble h1, .msgBubble h2, .msgBubble h3 { margin: 12px  6px; }
-
+.msgBubble h1, .msgBubble h3 { margin: 12px  6px; }
+.msgBubble h2 {
+  text-align: center;
+  font-size: 16px;
+  margin: 12px 0 4px;
+  color: var(--olive-deep);
+}
 .userMsg .msgBubble {
   background: var(--olive);
   color: var(--on-olive);

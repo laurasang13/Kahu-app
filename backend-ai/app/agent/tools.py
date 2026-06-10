@@ -13,19 +13,19 @@ async def registrar_receta(
     fecha: str,
     ingredientes: str,
     proporciones: str,
-    calorias_total: float,
+    calorias_total: str,
     notas_ia: str
 ) -> str:
     """
     Guarda un plan nutricional generado por el agente en la base de datos.
     Úsala cuando el usuario pida una receta o plan semanal completo.
     fecha formato: YYYY-MM-DD
-    calorias_total debe ser un número flotante, nunca un string.
+    calorias_total DEBE ser un número entero o decimal, NUNCA un string. Ejemplo: 1350 (no "1350")
     """
     try:
-        calorias_total = float(calorias_total)
+        calorias_float = float(calorias_total)
     except (ValueError, TypeError):
-        calorias_total = 0.0
+        calorias_float = 0.0
 
     async with httpx.AsyncClient() as client:
         response = await client.post(
@@ -35,7 +35,7 @@ async def registrar_receta(
                 "fecha": fecha,
                 "ingredientes": ingredientes,
                 "proporciones": proporciones,
-                "calorias_total": calorias_total,
+                "calorias_total": calorias_float,
                 "notas_ia": notas_ia
             },
             headers={"Authorization": f"Bearer {os.getenv('INTERNAL_SERVICE_TOKEN')}"}

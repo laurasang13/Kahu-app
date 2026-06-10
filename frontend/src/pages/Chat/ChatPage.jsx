@@ -8,7 +8,7 @@ import ReactMarkdown from 'react-markdown'
 
 export default function ChatPage() {
   const navigate = useNavigate()
-  const { mensajes, loading, enviarMensaje, fetchHistorial, limpiarChat } = useChat()
+  const { mensajes, loading, enviarMensaje, fetchHistorial, limpiarChat, resetLocal } = useChat()
   const { mascotaActiva } = useMascota()
   const { lang, t, toggleLang } = useLanguage()
   const [input, setInput] = useState('')
@@ -16,7 +16,7 @@ export default function ChatPage() {
 
   useEffect(() => {
     if (mascotaActiva) fetchHistorial(mascotaActiva.id)
-    return () => limpiarChat()
+    return () => resetLocal()
   }, [mascotaActiva])
 
   useEffect(() => {
