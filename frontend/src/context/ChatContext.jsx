@@ -32,7 +32,7 @@ export function ChatProvider({ children }) {
         mensaje: texto
       })
 
-      const mascotaInfo = `Mascota: ${mascotaActiva.nombre}, ${mascotaActiva.raza}, ${mascotaActiva.edad_meses} meses, ${mascotaActiva.peso_kg}kg, alergias: ${mascotaActiva.alergias || 'ninguna'}, tipo de dieta: ${mascotaActiva.tipo_dieta || 'BARF'}`
+      const mascotaInfo = `Mascota: ${mascotaActiva.nombre}, ${mascotaActiva.raza}, ${mascotaActiva.edad_meses} meses, ${mascotaActiva.peso_kg}kg, alergias: ${mascotaActiva.alergias || 'ninguna'}, tipo de dieta: ${mascotaActiva.tipo_dieta || 'BARF'}, tomas al día: ${mascotaActiva.num_tomas || 2}`      
       const yaHayContexto = mensajes.some(m => m.mensaje?.includes('[Contexto:'))
 
       const historialFormateado = mensajes.map(m => ({
@@ -73,8 +73,7 @@ export function ChatProvider({ children }) {
     setMensajes([])
   }
 
-  const yaHayContexto = mensajes.some(m => m.mensaje?.includes('[Contexto:'))
-    console.log('yaHayContexto:', yaHayContexto, 'mensajes:', mensajes.length)
+  
   const resetLocal = () => setMensajes([])
 
   return (

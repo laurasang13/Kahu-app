@@ -10,6 +10,8 @@ from dotenv import load_dotenv
 from app.agent.tools import registrar_receta, actualizar_registro_vet
 from app.agent.prompts import SYSTEM_PROMPT
 from app.rag.retriever import get_retriever
+from datetime import date
+
 
 load_dotenv()
 
@@ -35,14 +37,16 @@ def agent_node(state: AgentState):
     docs = retriever.invoke(last_message)
     context = "\n\n".join([d.page_content for d in docs])
 
-    system = SystemMessage(content=f"{SYSTEM_PROMPT}\n\nContexto relevante de los documentos:\n{context}\n\nID de mascota activa: {state['mascota_id']}\nUsa SIEMPRE este ID exacto al llamar a las tools.")
+    system = SystemMessage(content=f"{SYSTEM_PROMPT}\n\nContexto relevante de los documentos:\n{context}\n\nID de mascota activa: {state['mascota_id']}\nUsa SIEMPRE este ID exacto al llamar a las tools.\nFecha de hoy: {date.today().isoformat()}")
     messages = [system] + state["messages"]
 
     try:
         llm = get_llm()
         response = llm.invoke(messages)
     except Exception as e:
-        if "rate_limit" in str(e).lower() or "429" in str(e):
+        print(f"Error tipo: {type(e).__name__}, mensaje: {str(e)[:100]}")
+        if "rate_limit" in str(e).lower() or "429" in str(e) or "RateLimitError" in type(e).__name__:
+            print("Usando segunda key...")
             llm = get_llm(use_second_key=True)
             response = llm.invoke(messages)
         else:

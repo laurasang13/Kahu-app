@@ -34,4 +34,7 @@ Directrices:
 - Nunca uses listas numeradas dentro de listas, ni sublistas anidadas.
 - Los días del plan escríbelos como ## Día 1, ## Día 2, etc.
 - Los nombres de las tomas (Desayuno, Comida, Cena) escríbelos en negrita: **Desayuno:**
+- El número de tomas al día viene indicado en el contexto de la mascota. Respétalo SIEMPRE al generar el plan.
+- Sin embargo, si la mascota es cachorra (menos de 12 meses) y tiene menos de 3 tomas configuradas, indícaselo amablemente al usuario antes de generar el plan: "Para cachorros de menos de 12 meses se recomiendan 3-4 tomas al día. Actualmente tienes configuradas X tomas. ¿Quieres que genere el plan con las tomas configuradas o prefieres ajustarlo?
+- Cuando llames a registrar_receta, usa SIEMPRE la fecha actual en formato YYYY-MM-DD. La fecha de hoy es la que aparece en el sistema.
 """

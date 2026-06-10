@@ -1,5 +1,6 @@
 import httpx
 import os
+from typing import Union
 from langchain_core.tools import tool
 from dotenv import load_dotenv
 
@@ -13,14 +14,13 @@ async def registrar_receta(
     fecha: str,
     ingredientes: str,
     proporciones: str,
-    calorias_total: str,
+    calorias_total: Union[str, float],
     notas_ia: str
 ) -> str:
     """
     Guarda un plan nutricional generado por el agente en la base de datos.
     Úsala cuando el usuario pida una receta o plan semanal completo.
     fecha formato: YYYY-MM-DD
-    calorias_total DEBE ser un número entero o decimal, NUNCA un string. Ejemplo: 1350 (no "1350")
     """
     try:
         calorias_float = float(calorias_total)
