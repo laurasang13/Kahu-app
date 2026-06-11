@@ -60,6 +60,10 @@ const translations = {
     goToChat: 'Ir al chat',
     confirmDeletePlan: '¿Seguro que quieres eliminar este menú?',
     weight: 'Peso',
+    mealsPerDay: 'Tomas al día',
+    meal: 'toma',
+    meals: 'tomas',
+    weightEvolution: 'Evolución peso',
   },
 
   en: {
@@ -121,6 +125,10 @@ const translations = {
     goToChat: 'Go to chat',
     confirmDeletePlan: 'Are you sure you want to delete this menu?',
     weight: 'Weight',
+    mealsPerDay: 'Meals per day',
+    meal: 'meal',
+    meals: 'meals',
+    weightEvolution: 'Weight tracking',
  }
 }
 

@@ -108,8 +108,8 @@ export default function ProfilePage() {
                   <div className={styles.editBtns}>
                     <button className={styles.saveBtn} onClick={handleSave}>{t.save}</button>
                     <button className={styles.cancelBtn} onClick={() => setEditando(null)}>{t.cancel}</button>
-                  </div>
-                </div>
+                  </div>           
+            </div>
               ) : (
                 <div className={styles.petInfo}>
                   <div className={styles.petHeader}>

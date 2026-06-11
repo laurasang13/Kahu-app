@@ -1,70 +1,57 @@
-# 🐾 Kahu — Nutrición canina con IA
-
-> App web fullstack para dueños de perros que siguen dieta BARF o dieta casera cocinada. El usuario registra su mascota y chatea con un agente IA que calcula recetas y porciones personalizadas según peso, raza, edad, alergias y número de tomas.
-
 ![Kahu](./frontend/public/Kahu_Logo_transparente.png)
 
----
-
-## 📋 Descripción
-
-Kahu es una aplicación fullstack que combina:
-- **Agente LangGraph** con RAG (Retrieval-Augmented Generation) para responder preguntas sobre nutrición canina basándose en documentos especializados
-- **Backend Node.js** para gestión de usuarios, mascotas, autenticación JWT y persistencia de datos
-- **Frontend React** con diseño mobile-first inspirado en el tema "Huerta" — cálido, orgánico y accesible
+Kahu es una app web fullstack para dueños de perros que siguen dieta BARF o dieta casera cocinada. El usuario registra su mascota y chatea con un agente IA que calcula recetas y porciones personalizadas según peso, raza, edad, alergias, tipo de dieta y número de tomas al día.
 
 ---
 
-## 🏗️ Arquitectura
+## Stack
+
+**Frontend** — React 18 + Vite + React Router v6, Context API, CSS Modules, diseño mobile-first
+
+**Backend Node** — Node.js + Express, Prisma ORM, PostgreSQL, JWT, bcrypt, express-validator
+
+**Backend IA** — FastAPI + LangGraph + LangChain, RAG con ChromaDB, Groq (llama-3.3-70b-versatile), FastEmbed
+
+**Automatización** — N8N (workflow PDF + email al generar un plan nutricional)
+
+**Deploy** — Vercel (frontend) + Render (backends) + Neon (PostgreSQL en cloud)
+
+---
+
+## Arquitectura
 
 ```
 ┌─────────────┐     ┌─────────────────┐     ┌──────────────────┐
 │   Frontend  │────▶│  Backend Node   │────▶│   PostgreSQL     │
 │  React+Vite │     │  Express+Prisma │     │   (Neon/Local)   │
 └──────┬──────┘     └─────────────────┘     └──────────────────┘
-       │                                              
+       │
        │            ┌─────────────────┐     ┌──────────────────┐
        └───────────▶│  Backend IA     │────▶│   ChromaDB       │
-                    │  FastAPI+       │     │   (vectorstore)  │
+                    │  FastAPI +      │     │   (vectorstore)  │
                     │  LangGraph+RAG  │     └──────────────────┘
+                    └────────┬────────┘
+                             │
+                    ┌────────▼────────┐
+                    │   Groq API      │
+                    │ llama-3.3-70b   │
                     └─────────────────┘
-                            │
-                    ┌───────▼────────┐
-                    │   Groq API     │
-                    │ llama-3.3-70b  │
-                    └────────────────┘
 ```
 
 ---
 
-## 🛠️ Stack técnico
-
-| Capa | Tecnología |
-|------|------------|
-| Frontend | React 18 + Vite + React Router v6 + Context API |
-| Backend BD/Auth | Node.js + Express + Prisma + JWT |
-| Backend IA | FastAPI + LangGraph + LangChain + ChromaDB |
-| Base de datos | PostgreSQL |
-| LLM | Groq (llama-3.3-70b-versatile) |
-| Embeddings | HuggingFace (paraphrase-multilingual-MiniLM-L12-v2) |
-| Automatización | N8N |
-| Deploy | Render (backends) + Vercel (frontend) + Neon (DB) |
-
----
-
-## 📁 Estructura del proyecto
+## Estructura del proyecto
 
 ```
 kahu-app/
-├── backend-ai/          # FastAPI + LangGraph + RAG
+├── backend-ai/          FastAPI + LangGraph + RAG
 │   ├── app/
-│   │   ├── agent/       # Grafo LangGraph, tools, prompts
-│   │   ├── rag/         # ChromaDB, loaders, embeddings
-│   │   └── api/         # Endpoints FastAPI
-│   ├── docs/            # 5 documentos RAG indexados
-│   ├── ingest.py        # Script de indexación
-│   └── requirements.txt
-├── backend-node/        # Node.js + Prisma + JWT
+│   │   ├── agent/       Grafo LangGraph, tools, prompts
+│   │   ├── rag/         ChromaDB, loaders, embeddings
+│   │   └── api/         Endpoints FastAPI
+│   ├── docs/            5 documentos RAG indexados
+│   └── ingest.py        Script de indexación (ejecutar una vez)
+├── backend-node/        Node.js + Prisma + JWT
 │   ├── src/
 │   │   ├── controllers/
 │   │   ├── routes/
@@ -74,50 +61,42 @@ kahu-app/
 │       ├── schema.prisma
 │       ├── migrations/
 │       └── seed.js
-├── frontend/            # React 18 + Vite
+├── frontend/            React 18 + Vite
 │   └── src/
 │       ├── components/
 │       ├── context/
 │       ├── hooks/
 │       ├── pages/
 │       └── services/
-├── n8n/                 # Workflow PDF + Email
-├── API.md               # Documentación de endpoints
+├── n8n/                 Workflow exportado PDF + Email
+├── API.md               Documentación de endpoints
 └── kahu-api.postman_collection.json
 ```
 
 ---
 
-## 🚀 Instalación y arranque local
+## Instalación
 
 ### Requisitos previos
-- Node.js v18+
+- Node.js 18+
 - Python 3.11+
-- PostgreSQL 14+
-- Git
+- PostgreSQL corriendo en local
 
-### 1. Clonar el repositorio
-
-```bash
-git clone https://github.com/laurasang13/kahu-app.git
-cd kahu-app
-```
-
-### 2. Backend Node
+### Backend Node
 
 ```bash
 cd backend-node
 npm install
 cp .env.example .env
-# Edita .env con tus credenciales
+# Rellena las variables de entorno
 npx prisma migrate dev
 npx prisma db seed
 npm run dev
 ```
 
-El servidor arranca en `http://localhost:3001`
+La API estará disponible en `http://localhost:3001`.
 
-### 3. Backend IA
+### Backend IA
 
 ```bash
 cd backend-ai
@@ -125,57 +104,135 @@ python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env
-# Edita .env con tu GROQ_API_KEY
-python ingest.py        # Indexar documentos RAG (solo primera vez)
+# Rellena las variables de entorno con tu GROQ_API_KEY
+python ingest.py   # Solo la primera vez — indexa los documentos RAG
 uvicorn app.main:app --reload --port 8000
 ```
 
-El servidor arranca en `http://localhost:8000`
+El servidor IA estará disponible en `http://localhost:8000`.
 
-### 4. Frontend
+### Frontend
 
 ```bash
 cd frontend
 npm install
 cp .env.example .env
+# Rellena las variables de entorno
 npm run dev
 ```
 
-La app arranca en `http://localhost:5173`
+La app estará disponible en `http://localhost:5173`.
+
+> Asegúrate de tener los tres servidores corriendo para que la app funcione completa.
 
 ---
 
-## 🌱 Variables de entorno
+## Variables de entorno
 
-### backend-node/.env
-```
-DATABASE_URL="postgresql://usuario:password@localhost:5432/kahu_db"
-JWT_SECRET=tu_jwt_secret
-PORT=3001
-FASTAPI_URL=http://localhost:8000
-INTERNAL_SERVICE_TOKEN=token_interno_seguro
-FRONTEND_URL=http://localhost:5173
+Las variables necesarias están documentadas en los archivos `.env.example` de cada carpeta. Cópialos y rellena con tus credenciales reales.
+
+| Carpeta | Variables principales |
+|---------|----------------------|
+| `backend-node` | `DATABASE_URL`, `JWT_SECRET`, `INTERNAL_SERVICE_TOKEN` |
+| `backend-ai` | `GROQ_API_KEY`, `NODE_BACKEND_URL`, `INTERNAL_SERVICE_TOKEN` |
+| `frontend` | `VITE_API_NODE_URL`, `VITE_API_AI_URL` |
+
+---
+
+## API — Recursos principales
+
+| Recurso | Ruta base | Backend |
+|---------|-----------|---------|
+| Auth | `/api/auth` | Node |
+| Mascotas | `/api/mascotas` | Node |
+| Planes nutricionales | `/api/planes` | Node |
+| Historial veterinario | `/api/historial-vet` | Node |
+| Chat historial | `/api/chat` | Node |
+| Registro de peso | `/api/peso` | Node |
+| Chat con agente IA | `/api/chat` | FastAPI |
+
+Todos los endpoints de Node (excepto `/api/auth/register` y `/api/auth/login`) requieren token JWT en el header `Authorization: Bearer <token>`.
+
+Ver `API.md` para documentación completa y `kahu-api.postman_collection.json` para importar en Postman.
+
+---
+
+## Base de datos
+
+6 tablas relacionadas:
+
+- **Usuario** — perfil, credenciales, rol (USER / ADMIN)
+- **Mascota** — datos del perro (raza, peso, edad, alergias, tipo de dieta, tomas)
+- **PlanNutricional** — planes generados por el agente IA
+- **HistorialVeterinario** — eventos de salud de la mascota
+- **ChatHistorial** — historial de conversaciones con el agente
+- **RegistroPeso** — evolución del peso a lo largo del tiempo
+
+---
+
+## Agente IA
+
+El agente usa **LangGraph** con RAG sobre 5 documentos especializados en nutrición canina:
+
+1. Tabla maestra de alimentos permitidos y prohibidos
+2. Cálculo de porciones y raciones BARF
+3. Guía completa BARF vs dieta cocinada
+4. Cuidados por etapa de vida (cachorro, adulto, senior)
+5. Adiestramiento en positivo
+
+### Tools disponibles
+- `registrar_receta` → guarda el plan en `PlanNutricional`
+- `actualizar_registro_vet` → guarda eventos en `HistorialVeterinario`
+
+---
+
+## Roles
+
+**USER** — puede registrar mascotas, chatear con el agente IA, ver y eliminar sus planes nutricionales, registrar el peso de su mascota y gestionar el historial veterinario.
+
+**ADMIN** — acceso completo. Puede gestionar todos los usuarios y recursos de la plataforma.
+
+---
+
+## Funcionalidades
+
+- Registro, login y logout con JWT
+- Perfil de mascota editable (raza, peso, edad, alergias, tipo de dieta, tomas al día)
+- Chat con agente IA especializado en nutrición canina BARF y cocinada
+- El agente muestra el plan antes de guardarlo y pide confirmación
+- Historial de chat persistido en PostgreSQL por mascota
+- Planes nutricionales guardados con calorías, ingredientes y proporciones
+- Gráfico de evolución de peso con registro histórico
+- Soporte bilingüe (español / inglés)
+- Diseño mobile-first con navbar flotante
+- Workflow N8N: al confirmar un plan → genera PDF → envía por email
+- Manejo centralizado de errores en ambos backends
+- Validaciones en cliente (React) y servidor (express-validator + Pydantic v2)
+
+---
+
+## Arrancar la app en local
+
+Necesitas tres terminales abiertas:
+
+**Terminal 1 — Backend Node:**
+```bash
+cd backend-node && npm run dev
 ```
 
-### backend-ai/.env
-```
-GROQ_API_KEY=tu_groq_api_key
-GROQ_SECOND_API_KEY=tu_segunda_groq_api_key
-NODE_BACKEND_URL=http://localhost:3001
-CHROMA_PERSIST_DIR=./chroma
-INTERNAL_SERVICE_TOKEN=token_interno_seguro
-FRONTEND_URL=http://localhost:5173
+**Terminal 2 — Backend IA:**
+```bash
+cd backend-ai && source .venv/bin/activate && uvicorn app.main:app --reload --port 8000
 ```
 
-### frontend/.env
-```
-VITE_API_NODE_URL=http://localhost:3001
-VITE_API_AI_URL=http://localhost:8000
+**Terminal 3 — Frontend:**
+```bash
+cd frontend && npm run dev
 ```
 
 ---
 
-## 👥 Usuarios de prueba (seed)
+## Usuarios de prueba (seed)
 
 | Nombre | Email | Password | Rol |
 |--------|-------|----------|-----|
@@ -186,117 +243,32 @@ VITE_API_AI_URL=http://localhost:8000
 | Miguel | miguel@test.com | test123 | USER |
 | Sara | sara@test.com | test123 | USER |
 
-### Mascotas de prueba
-
-| ID | Nombre | Raza | Dueño |
-|----|--------|------|-------|
-| seed-mascota-0001 | Luna | Border Collie | Patricia |
-| seed-mascota-0002 | Rocky | Labrador | Carlos |
-| seed-mascota-0003 | Nala | Golden Retriever | Ana |
-| seed-mascota-0004 | Thor | Pastor Alemán | Miguel |
-| seed-mascota-0005 | Mia | Beagle | Sara |
+Mascotas de prueba con IDs `seed-mascota-0001` a `seed-mascota-0005` vinculadas a cada usuario.
 
 ---
 
-## 🤖 Agente IA
+## Deploy
 
-El agente usa **LangGraph** con el siguiente flujo:
-
-```
-Usuario → Webhook → [Tiene datos?] → Generar HTML → PDF → Email
-                         ↓ No
-                    Respuesta Error
-```
-
-### Tools disponibles
-- `registrar_receta` → guarda el plan en tabla `PlanNutricional`
-- `actualizar_registro_vet` → guarda eventos en `HistorialVeterinario`
-
-### Documentos RAG indexados
-1. `doc1_alimentos_maestro.md` — tabla maestra de alimentos permitidos
-2. `doc2_porciones_y_calculos.md` — cálculo de raciones BARF
-3. `doc3_guia_barf_completa.md` — guía completa BARF vs dieta cocinada
-4. `doc4_cuidados_por_etapa.md` — cuidados por etapa de vida
-5. `doc5_adiestramiento_positivo.md` — adiestramiento en positivo
+- Frontend → https://kahu-app-brown.vercel.app
+- Backend Node → https://kahu-backend-node.onrender.com
+- Backend IA → https://kahu-backend-ai.onrender.com
+- Base de datos → PostgreSQL en Neon (Frankfurt)
 
 ---
 
-## 📊 Base de datos
+## Backlog
 
-```
-USUARIOS ──< MASCOTAS ──< PLAN_NUTRICIONAL
-                     ──< HISTORIAL_VETERINARIO
-                     ──< CHAT_HISTORIAL
-                     ──< REGISTRO_PESO
-```
-
----
-
-## 🔄 Workflow N8N
-
-El workflow `n8n/kahu-workflow.json` se activa cuando el agente genera un plan nutricional:
-
-1. **Webhook** recibe los datos del plan
-2. **Condicional** verifica que tiene ingredientes
-3. **Genera HTML** con el plan formateado
-4. **Convierte a PDF**
-5. **Envía email** al usuario con el PDF adjunto
-
-Para importarlo: N8N → Workflows → Import from file
-
----
-
-## 📡 API
-
-Ver `API.md` para documentación completa de endpoints.
-Ver `kahu-api.postman_collection.json` para colección Postman.
-
-### Endpoints principales
-
-| Método | Ruta | Descripción |
-|--------|------|-------------|
-| POST | `/api/auth/register` | Registro |
-| POST | `/api/auth/login` | Login |
-| GET | `/api/mascotas` | Mascotas del usuario |
-| POST | `/api/chat` (FastAPI) | Chat con agente IA |
-
----
-
-## Diseño
-
-El diseño sigue el tema **"Huerta"** — orgánico, cálido y natural:
-- Fondo crema/ocre (`oklch(0.957 0.018 86)`)
-- Verde oliva como color principal
-- Tipografía: Bricolage Grotesque (display) + Hanken Grotesk (body)
-- Mobile-first con navbar flotante
-- Soporte bilingüe (ES/EN)
-
----
-
-## Roadmap
-
-### MVP entregado 
-- Agente LangGraph con 2 tools + RAG con ChromaDB
-- Perfil de mascota con validación
-- Chat con historial persistido en PostgreSQL
-- Workflow N8N: plan → PDF → email
-- React 18 + Vite + React Router v6
-- Context API para usuario autenticado
-- JWT: registro, login, rutas protegidas
-
-### Mejoras futuras 
-- Chat diferenciado (nutrición vs cuidados)
-- Historial veterinario completo en UI
-- Notificaciones y recordatorios
+- Chat diferenciado: un agente para nutrición y otro para cuidados y adiestramiento
+- Historial veterinario con UI completa (ahora solo via agente)
+- Recordatorios de citas veterinarias y pesajes
 - Modo offline con PWA
-- Dashboard admin
-- Olvidar contraseña
+- Vectorstore en Qdrant cloud para mejor escalabilidad
+- Notificaciones en tiempo real
+- Dashboard de administración
+- Recuperación de contraseña por email
 
 ---
 
 ## Autora
 
-**Laura Sang** — Proyecto final Fullstack Bootcamp @ Ironhack Las Palmas 2026
-
----
-
+**Laura Sang** — Proyecto final Fullstack Bootcamp · Ironhack Las Palmas · Junio 2026
