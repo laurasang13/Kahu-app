@@ -83,3 +83,20 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+.actions {
+  display: flex;
+  gap: 6px;
+}
+
+.downloadBtn {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 2px 4px;
+  opacity: 0.6;
+  transition: opacity 0.15s ease;
+}
+
+.downloadBtn:hover { opacity: 1; }

@@ -1,5 +1,8 @@
 const { validationResult } = require('express-validator')
 const prisma = require('../prisma/client')
+const axios = require('axios')
+
+const N8N_WEBHOOK_URL = process.env.N8N_WEBHOOK_URL
 
 const getPlanes = async (req, res, next) => {
   try {
@@ -32,6 +35,7 @@ const createPlan = async (req, res, next) => {
         notas_ia
       }
     })
+
     res.status(201).json(plan)
   } catch (error) {
     next(error)
@@ -47,4 +51,37 @@ const deletePlan = async (req, res, next) => {
   }
 }
 
-module.exports = { getPlanes, createPlan, deletePlan }
+const enviarEmailPlan = async (req, res, next) => {
+  try {
+    const plan = await prisma.planNutricional.findUnique({
+      where: { id: req.params.id },
+      include: { mascota: true }
+    })
+
+    if (!plan) return res.status(404).json({ error: 'Plan no encontrado' })
+
+    const { usuario_email } = req.body
+
+    if (N8N_WEBHOOK_URL) {
+      await axios.post(N8N_WEBHOOK_URL, {
+        usuario_email: usuario_email || 'sin-email@kahu.app',
+        nombre_perro: plan.mascota?.nombre || 'tu perro',
+        ingredientes: plan.ingredientes,
+        proporciones: plan.proporciones,
+        calorias_total: plan.calorias_total,
+        notas_ia: plan.notas_ia,
+        plan_id: plan.id,
+        fecha: plan.fecha
+      }, {
+        headers: { 'Content-Type': 'application/json' },
+        timeout: 10000
+      })
+    }
+
+    res.json({ ok: true, message: 'Email enviado correctamente' })
+  } catch (error) {
+    next(error)
+  }
+}
+
+module.exports = { getPlanes, createPlan, deletePlan, enviarEmailPlan }

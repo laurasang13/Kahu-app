@@ -1,0 +1,176 @@
+{
+  "name": "Kahu — Plan Nutricional PDF + Email",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "kahu-plan",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "967a5edf-63f4-4baa-b377-787c5fa10a2d",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        -448,
+        80
+      ],
+      "webhookId": "0ec51dc8-c1ca-4c58-bf02-4beb71ead27c"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.body.ingredientes }}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        }
+      },
+      "id": "83d8c4c8-775d-47fe-b00a-f3c83d58a4f9",
+      "name": "Tiene datos?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        -224,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $input.first().json;\nconst body = raw.body || raw;\nconst fecha = new Date(body.fecha).toLocaleDateString('es-ES', {\n  day: 'numeric', month: 'long', year: 'numeric'\n});\n\n// Convertir markdown básico a HTML\nfunction markdownToHtml(text) {\n  if (!text) return '';\n  return text\n    .replace(/## (.*)/g, '<h3 style=\"color:#4a7c59;margin:24px 0 8px;\">$1</h3>')\n    .replace(/\\*\\*(.*?)\\*\\*/g, '<strong>$1</strong>')\n    .replace(/^- (.*)/gm, '<li>$1</li>')\n    .replace(/^(\\d+)\\. (.*)/gm, '<li>$2</li>')\n    .replace(/(<li>.*<\\/li>)/gs, '<ul style=\"margin:8px 0;padding-left:20px;\">$1</ul>')\n    .replace(/\\n\\n/g, '<br>')\n}\n\nconst calorias = body.calorias_total ? Math.round(body.calorias_total) : null;\nconst notasHtml = markdownToHtml(body.notas_ia);\n\nconst html = `\n<!DOCTYPE html>\n<html lang=\"es\">\n<head>\n  <meta charset=\"UTF-8\">\n  <style>\n    body { font-family: Arial, sans-serif; padding: 40px; color: #2d3a1f; max-width: 700px; margin: 0 auto; }\n    h1 { color: #4a7c59; font-size: 28px; margin-bottom: 4px; }\n    .subtitle { color: #7a8c6a; font-size: 14px; margin-bottom: 32px; }\n    .section { background: #f5f0e8; border-radius: 12px; padding: 20px; margin-bottom: 20px; }\n    .section h2 { font-size: 16px; color: #4a7c59; margin: 0 0 12px; }\n    .section p { margin: 0; font-size: 14px; line-height: 1.6; }\n    .kcal { font-size: 32px; font-weight: bold; color: #4a7c59; }\n    .plan { font-size: 14px; line-height: 1.8; }\n    .plan h3 { color: #4a7c59; }\n    .plan ul { margin: 4px 0; padding-left: 20px; }\n    .plan li { margin-bottom: 4px; }\n    .footer { margin-top: 40px; font-size: 12px; color: #999; text-align: center; }\n  </style>\n</head>\n<body>\n  <h1>🐾 Plan Nutricional Kahu</h1>\n  <div class=\"subtitle\">Generado el ${fecha} · ${body.nombre_perro || body.mascota_nombre || 'Tu mascota'}</div>\n\n  ${calorias ? `\n  <div class=\"section\">\n    <h2>Calorías totales</h2>\n    <span class=\"kcal\">${calorias} kcal</span>\n  </div>` : ''}\n\n  <div class=\"section\">\n    <h2>Ingredientes</h2>\n    <p>${body.ingredientes}</p>\n  </div>\n\n  ${body.proporciones ? `\n  <div class=\"section\">\n    <h2>Proporciones</h2>\n    <p>${body.proporciones}</p>\n  </div>` : ''}\n\n  ${body.notas_ia ? `\n  <div class=\"section\">\n    <h2>Plan detallado</h2>\n    <div class=\"plan\">${notasHtml}</div>\n  </div>` : ''}\n\n  <div class=\"footer\">Generado por Kahu · kahuappcontact@gmail.com</div>\n</body>\n</html>\n`;\nreturn [{ json: { html, body } }];"
+      },
+      "id": "0946b1ce-8193-4b67-b555-90100fc465ff",
+      "name": "Generar HTML",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        48,
+        -80
+      ]
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.body.usuario_email }}",
+        "subject": "=🐾 Tu plan nutricional Kahu para {{ $json.body.nombre_perro }} está listo",
+        "message": "={{ $json.html }}",
+        "options": {}
+      },
+      "id": "7e53d84b-c187-4f63-b125-6a79b7238477",
+      "name": "Enviar Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        336,
+        96
+      ],
+      "webhookId": "1b6f2d2b-4288-4a71-88e1-1e07d4b8a7b0",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "DXuHVTuiPFO8Gp1U",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={ \"ok\": false, \"message\": \"Plan sin datos\" }",
+        "options": {}
+      },
+      "id": "512c6e20-b928-4956-bf4e-8180034c8719",
+      "name": "Respuesta Error",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        32,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={ \"ok\": true, \"message\": \"Email enviado correctamente\" }",
+        "options": {}
+      },
+      "id": "1ad1b641-2db5-4212-b40e-7de89688220c",
+      "name": "Respuesta OK",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        672,
+        0
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Tiene datos?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tiene datos?": {
+      "main": [
+        [
+          {
+            "node": "Generar HTML",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respuesta Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generar HTML": {
+      "main": [
+        [
+          {
+            "node": "Enviar Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar Email": {
+      "main": [
+        [
+          {
+            "node": "Respuesta OK",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "283d1d02-f072-4e50-a245-9628c814f641",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b3368e09e348a4513c19f54dc927c9428a1613d8b4e5776df7bc1b6a79f9a6df"
+  },
+  "nodeGroups": [],
+  "id": "4tX4omzrlCvYZoyj",
+  "tags": []
+}

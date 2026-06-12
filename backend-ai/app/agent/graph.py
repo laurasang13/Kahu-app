@@ -20,6 +20,8 @@ TOOLS = [registrar_receta, actualizar_registro_vet]
 class AgentState(TypedDict):
     messages: Annotated[list, operator.add]
     mascota_id: str
+    usuario_email: str
+    nombre_perro: str
 
 def get_llm(use_second_key=False):
     api_key = os.getenv("GROQ_SECOND_API_KEY") if use_second_key else os.getenv("GROQ_API_KEY")
@@ -37,7 +39,7 @@ def agent_node(state: AgentState):
     docs = retriever.invoke(last_message)
     context = "\n\n".join([d.page_content for d in docs])
 
-    system = SystemMessage(content=f"{SYSTEM_PROMPT}\n\nContexto relevante de los documentos:\n{context}\n\nID de mascota activa: {state['mascota_id']}\nUsa SIEMPRE este ID exacto al llamar a las tools.\nFecha de hoy: {date.today().isoformat()}")
+    system = SystemMessage(content=f"{SYSTEM_PROMPT}\n\nContexto relevante de los documentos:\n{context}\n\nID de mascota activa: {state['mascota_id']}\nEmail del usuario: {state['usuario_email']}\nNombre del perro: {state['nombre_perro']}\nUsa SIEMPRE estos datos exactos al llamar a las tools.\nFecha de hoy: {date.today().isoformat()}")
     messages = [system] + state["messages"]
 
     try:

@@ -1,11 +1,13 @@
 import { createContext, useContext, useState } from 'react'
 import { aiApi, api } from '../services/api'
 import { useMascota } from './MascotaContext'
+import { useAuth } from './AuthContext'
 
 const ChatContext = createContext(null)
 
 export function ChatProvider({ children }) {
   const { mascotaActiva } = useMascota()
+  const { usuario } = useAuth()
   const [mensajes, setMensajes] = useState([])
   const [loading, setLoading] = useState(false)
 
@@ -43,7 +45,9 @@ export function ChatProvider({ children }) {
       const res = await aiApi.post('/api/chat', {
         mascota_id: mascotaActiva.id,
         mensaje: !yaHayContexto ? `[Contexto: ${mascotaInfo}] ${texto}` : texto,
-        historial: historialFormateado
+        historial: historialFormateado,
+        usuario_email: usuario?.email || '',
+        nombre_perro: mascotaActiva.nombre
       })
 
       const mensajeIA = { rol: 'assistant', mensaje: res.data.respuesta }
