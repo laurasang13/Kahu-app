@@ -35,14 +35,34 @@ export default function HomePage() {
   }
 
   const { pesoModal, setPesoModal } = useUI()
+  const [menuOpen, setMenuOpen] = useState(false)
 
   return (
     <div className={styles.container}>
       <header className={styles.header}>
         <img src="/Kahu_Logo_transparente.png" alt="Kahu" className={styles.logo} />
         <div className={styles.headerRight}>
-          <button className={styles.langBtn} onClick={toggleLang}>{lang === 'es' ? 'EN' : 'ES'}</button>
-          <button className={styles.logoutBtn} onClick={handleLogout}>{t.logout}</button>
+          <div className={styles.hamburgerWrapper}>
+            <button className={styles.hamburgerBtn} onClick={() => setMenuOpen(v => !v)} aria-label="Menú">
+              <span className={`${styles.bar} ${menuOpen ? styles.barTop : ''}`} />
+              <span className={`${styles.bar} ${menuOpen ? styles.barMid : ''}`} />
+              <span className={`${styles.bar} ${menuOpen ? styles.barBot : ''}`} />
+            </button>
+            {menuOpen && (
+              <>
+                <div className={styles.menuOverlay} onClick={() => setMenuOpen(false)} />
+                <div className={styles.dropdown}>
+                  <button className={styles.dropdownItem} onClick={() => { toggleLang(); setMenuOpen(false) }}>
+                    🌐 {lang === 'es' ? 'English' : 'Español'}
+                  </button>
+                  <div className={styles.dropdownDivider} />
+                  <button className={styles.dropdownItem} onClick={handleLogout}>
+                    🚪 {t.logout}
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
         </div>
       </header>
 

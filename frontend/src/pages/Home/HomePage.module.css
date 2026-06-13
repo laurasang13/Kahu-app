@@ -24,7 +24,7 @@
 
 .logo { width: 60px; height: auto; }
 
-.headerRight { display: flex; align-items: center; gap: 10px; }
+.headerRight { display: flex; align-items: center; gap: 10px; margin-left: auto; }
 
 .langBtn {
   background: var(--surface);
@@ -42,6 +42,82 @@
   font-size: 13px;
   font-weight: 600;
   color: var(--muted);
+}
+
+.hamburgerWrapper {
+  position: relative;
+}
+
+.hamburgerBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  padding: 6px;
+  width: 36px;
+  height: 36px;
+}
+
+.bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--ink);
+  border-radius: 2px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  transform-origin: center;
+}
+
+.barTop  { transform: translateY(7px) rotate(45deg); }
+.barMid  { opacity: 0; }
+.barBot  { transform: translateY(-7px) rotate(-45deg); }
+
+.menuOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 19;
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+  min-width: 180px;
+  z-index: 20;
+  overflow: hidden;
+  animation: kahuFade 0.15s ease;
+}
+
+.dropdownItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 13px 16px;
+  background: none;
+  border: none;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s ease;
+}
+
+.dropdownItem:hover { background: var(--bg); }
+
+.dropdownDivider {
+  height: 1px;
+  background: var(--line);
+  margin: 0;
 }
 
 .main {
