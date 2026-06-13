@@ -31,7 +31,7 @@ const createMascota = async (req, res, next) => {
       return res.status(400).json({ errors: errors.array() })
     }
 
-    const { nombre, raza, peso_kg, edad_meses, sexo, alergias } = req.body
+    const { nombre, raza, peso_kg, edad_meses, sexo, alergias, tipo_dieta, num_tomas } = req.body
 
     const mascota = await prisma.mascota.create({
       data: {
@@ -41,7 +41,9 @@ const createMascota = async (req, res, next) => {
         peso_kg,
         edad_meses,
         sexo,
-        alergias
+        alergias,
+        tipo_dieta,
+        num_tomas
       }
     })
     res.status(201).json(mascota)

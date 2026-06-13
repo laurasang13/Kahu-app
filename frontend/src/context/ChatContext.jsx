@@ -34,8 +34,7 @@ export function ChatProvider({ children }) {
         mensaje: texto
       })
 
-      const mascotaInfo = `Mascota: ${mascotaActiva.nombre}, ${mascotaActiva.raza}, ${mascotaActiva.edad_meses} meses, ${mascotaActiva.peso_kg}kg, alergias: ${mascotaActiva.alergias || 'ninguna'}, tipo de dieta: ${mascotaActiva.tipo_dieta || 'BARF'}, tomas al día: ${mascotaActiva.num_tomas || 2}`      
-      const yaHayContexto = mensajes.some(m => m.mensaje?.includes('[Contexto:'))
+      const mascotaInfo = `Mascota: ${mascotaActiva.nombre}, ${mascotaActiva.raza}, ${mascotaActiva.edad_meses} meses, ${mascotaActiva.peso_kg}kg, alergias: ${mascotaActiva.alergias || 'ninguna'}, tipo de dieta: ${mascotaActiva.tipo_dieta || 'BARF'}, tomas al día: ${mascotaActiva.num_tomas || 2}`
 
       const historialFormateado = mensajes.map(m => ({
         rol: m.rol,
@@ -44,7 +43,7 @@ export function ChatProvider({ children }) {
 
       const res = await aiApi.post('/api/chat', {
         mascota_id: mascotaActiva.id,
-        mensaje: !yaHayContexto ? `[Contexto: ${mascotaInfo}] ${texto}` : texto,
+        mensaje: `[Contexto: ${mascotaInfo}] ${texto}`,
         historial: historialFormateado,
         usuario_email: usuario?.email || '',
         nombre_perro: mascotaActiva.nombre

@@ -9,6 +9,16 @@
   min-width: 200px;
   flex: 1 1 200px;
   animation: kahuFade 0.3s ease;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}
+
+.expanded {
+  flex: 1 1 100%;
 }
 
 .header {
@@ -100,3 +110,35 @@
 }
 
 .downloadBtn:hover { opacity: 1; }
+
+.expandHint {
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: var(--muted);
+  text-align: center;
+  letter-spacing: 0.03em;
+}
+
+.planCompleto {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--ink);
+  line-height: 1.5;
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
+  white-space: pre-wrap;
+}
+
+.planCompleto p { margin: 14px; }
+.planCompleto p:last-child { margin-bottom: 0; }
+.planCompleto ul, .planCompleto ol { padding-left: 40px; margin: 8px 0; }
+.planCompleto li { margin-bottom: 6px; margin-top: 0; }
+.planCompleto strong { font-weight: 700; }
+.planCompleto h1, .planCompleto h3 { margin: 12px 6px; }
+.planCompleto h2 {
+  text-align: center;
+  font-size: 16px;
+  margin: 12px 0 4px;
+  color: var(--olive-deep);
+  font-weight: 700;
+}

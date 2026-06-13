@@ -44,7 +44,10 @@ def agent_node(state: AgentState):
     last_message = state["messages"][-1].content
 
     # RAG: recuperar contexto relevante con metadatos de fuente
-    docs = retriever.invoke(last_message)
+    # Eliminar el prefijo [Contexto: ...] para que el retriever busque solo la pregunta real
+    import re
+    clean_query = re.sub(r'^\[Contexto:[^\]]*\]\s*', '', last_message)
+    docs = retriever.invoke(clean_query or last_message)
     context_parts = []
     for d in docs:
         filename = os.path.basename(d.metadata.get("source", ""))
