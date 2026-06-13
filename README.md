@@ -267,6 +267,7 @@ Mascotas de prueba con IDs `seed-mascota-0001` a `seed-mascota-0005` vinculadas 
 - Notificaciones en tiempo real
 - Dashboard de administración
 - Recuperación de contraseña por email
+- Alerta meteorológica por geolocalización del navegador (actualmente usa la ciudad del registro)
 
 ---
 

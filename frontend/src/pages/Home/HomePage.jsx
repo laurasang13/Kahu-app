@@ -8,6 +8,8 @@ import { useState, useEffect } from 'react'
 import PesoChart from '../../components/PesoChart/PesoChart'
 import MenuCard from '../../components/MenuCard/MenuCard'
 import { useUI } from '../../context/UIContext'
+import WeatherAlert from '../../components/WeatherAlert/WeatherAlert'
+import TratamientoAlert from '../../components/TratamientoAlert/TratamientoAlert'
 
 
 export default function HomePage() {
@@ -107,6 +109,18 @@ export default function HomePage() {
                   🏥 Historial veterinario
                 </button>
               </div>
+            )}
+            {mascotaActiva && (
+              <WeatherAlert
+                ciudad={usuario?.ciudad || 'Madrid'}
+                nombreMascota={mascotaActiva.nombre}
+              />
+            )}
+            {mascotaActiva && (
+              <TratamientoAlert
+                mascotaId={mascotaActiva.id}
+                nombreMascota={mascotaActiva.nombre}
+              />
             )}
           </>
         ) : (

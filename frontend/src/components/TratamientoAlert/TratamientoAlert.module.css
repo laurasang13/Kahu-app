@@ -1,0 +1,30 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.banner {
+  display: flex;
+  align-items: center;
+  padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  animation: kahuFade 0.3s ease;
+}
+
+.warning {
+  background: oklch(0.95 0.08 80);
+  color: oklch(0.42 0.14 80);
+}
+
+.danger {
+  background: oklch(0.92 0.05 28);
+  color: oklch(0.42 0.16 28);
+}
+
+.msg {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+}
