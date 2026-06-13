@@ -46,7 +46,7 @@ model Mascota {
 model PlanNutricional {
   id            String   @id @default(uuid())
   mascota_id    String
-  mascota       Mascota  @relation(fields: [mascota_id], references: [id])
+  mascota       Mascota  @relation(fields: [mascota_id], references: [id], onDelete: Cascade)
   fecha         DateTime
   ingredientes  String
   proporciones  String
@@ -58,7 +58,7 @@ model PlanNutricional {
 model HistorialVeterinario {
   id           String   @id @default(uuid())
   mascota_id   String
-  mascota      Mascota  @relation(fields: [mascota_id], references: [id])
+  mascota      Mascota  @relation(fields: [mascota_id], references: [id], onDelete: Cascade)
   fecha_visita DateTime
   motivo       String
   descripcion  String
@@ -70,7 +70,7 @@ model HistorialVeterinario {
 model ChatHistorial {
   id         String   @id @default(uuid())
   mascota_id String
-  mascota    Mascota  @relation(fields: [mascota_id], references: [id])
+  mascota    Mascota  @relation(fields: [mascota_id], references: [id], onDelete: Cascade)
   rol        String
   mensaje    String
   created_at DateTime @default(now())
@@ -79,7 +79,7 @@ model ChatHistorial {
 model RegistroPeso {
   id         String   @id @default(uuid())
   mascota_id String
-  mascota    Mascota  @relation(fields: [mascota_id], references: [id])
+  mascota    Mascota  @relation(fields: [mascota_id], references: [id], onDelete: Cascade)
   peso_kg    Float
   fecha      DateTime @default(now())
 }
@@ -87,7 +87,7 @@ model RegistroPeso {
 model Tratamiento {
   id              String    @id @default(uuid())
   mascota_id      String
-  mascota         Mascota   @relation(fields: [mascota_id], references: [id])
+  mascota         Mascota   @relation(fields: [mascota_id], references: [id], onDelete: Cascade)
   nombre          String
   frecuencia_dias Int
   ultima_dosis    DateTime?
