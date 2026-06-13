@@ -7,6 +7,14 @@ import operator
 import os
 from dotenv import load_dotenv
 
+SOURCE_NAMES = {
+    "doc1_alimentos_maestro.md": "Guía de alimentos (permitidos/prohibidos)",
+    "doc2_porciones_y_calculos.md": "Porciones y cálculos de ración",
+    "doc3_guia_barf_completa.md": "Guía BARF completa",
+    "doc4_cuidados_por_etapa.md": "Cuidados por etapa de vida",
+    "doc5_adiestramiento_positivo.md": "Adiestramiento en positivo",
+}
+
 from app.agent.tools import registrar_receta, actualizar_registro_vet
 from app.agent.prompts import SYSTEM_PROMPT
 from app.rag.retriever import get_retriever
@@ -35,9 +43,14 @@ def agent_node(state: AgentState):
     retriever = get_retriever()
     last_message = state["messages"][-1].content
 
-    # RAG: recuperar contexto relevante
+    # RAG: recuperar contexto relevante con metadatos de fuente
     docs = retriever.invoke(last_message)
-    context = "\n\n".join([d.page_content for d in docs])
+    context_parts = []
+    for d in docs:
+        filename = os.path.basename(d.metadata.get("source", ""))
+        source_label = SOURCE_NAMES.get(filename, filename)
+        context_parts.append(f"[Fuente: {source_label}]\n{d.page_content}")
+    context = "\n\n".join(context_parts)
 
     system = SystemMessage(content=f"{SYSTEM_PROMPT}\n\nContexto relevante de los documentos:\n{context}\n\nID de mascota activa: {state['mascota_id']}\nEmail del usuario: {state['usuario_email']}\nNombre del perro: {state['nombre_perro']}\nUsa SIEMPRE estos datos exactos al llamar a las tools.\nFecha de hoy: {date.today().isoformat()}")
     messages = [system] + state["messages"]

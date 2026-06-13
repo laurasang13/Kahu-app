@@ -2,6 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const helmet = require('helmet')
 const dotenv = require('dotenv')
+const rateLimit = require('express-rate-limit')
 
 const errorHandler = require('./middleware/errorHAndler')
 const authRoutes = require('./routes/authRoutes')
@@ -15,11 +16,17 @@ dotenv.config()
 
 const app = express()
 
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  message: { error: 'Demasiados intentos. Espera 15 minutos.' }
+})
+
 app.use(helmet())
-app.use(cors())
+app.use(cors({ origin: process.env.FRONTEND_URL || 'http://localhost:5173' }))
 app.use(express.json())
 
-app.use('/api/auth', authRoutes)
+app.use('/api/auth', authLimiter, authRoutes)
 app.use('/api/mascotas', mascotasRoutes)
 app.use('/api/planes', planesRoutes)
 app.use('/api/historial-vet', historialVetRoutes)

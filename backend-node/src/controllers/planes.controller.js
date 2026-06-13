@@ -7,7 +7,10 @@ const N8N_WEBHOOK_URL = process.env.N8N_WEBHOOK_URL
 const getPlanes = async (req, res, next) => {
   try {
     const planes = await prisma.planNutricional.findMany({
-      where: { mascota_id: req.params.mascotaId },
+      where: {
+        mascota_id: req.params.mascotaId,
+        mascota: { usuario_id: req.user.id }
+      },
       orderBy: { fecha: 'desc' }
     })
     res.json(planes)
@@ -24,6 +27,11 @@ const createPlan = async (req, res, next) => {
     }
 
     const { mascota_id, fecha, ingredientes, proporciones, calorias_total, notas_ia } = req.body
+
+    if (req.user.rol !== 'ADMIN') {
+      const mascota = await prisma.mascota.findFirst({ where: { id: mascota_id, usuario_id: req.user.id } })
+      if (!mascota) return res.status(403).json({ error: 'No autorizado' })
+    }
 
     const plan = await prisma.planNutricional.create({
       data: {
@@ -44,6 +52,11 @@ const createPlan = async (req, res, next) => {
 
 const deletePlan = async (req, res, next) => {
   try {
+    const plan = await prisma.planNutricional.findFirst({
+      where: { id: req.params.id, mascota: { usuario_id: req.user.id } }
+    })
+    if (!plan) return res.status(404).json({ error: 'Plan no encontrado' })
+
     await prisma.planNutricional.delete({ where: { id: req.params.id } })
     res.json({ message: 'Plan eliminado correctamente' })
   } catch (error) {
@@ -53,18 +66,16 @@ const deletePlan = async (req, res, next) => {
 
 const enviarEmailPlan = async (req, res, next) => {
   try {
-    const plan = await prisma.planNutricional.findUnique({
-      where: { id: req.params.id },
+    const plan = await prisma.planNutricional.findFirst({
+      where: { id: req.params.id, mascota: { usuario_id: req.user.id } },
       include: { mascota: true }
     })
 
     if (!plan) return res.status(404).json({ error: 'Plan no encontrado' })
 
-    const { usuario_email } = req.body
-
     if (N8N_WEBHOOK_URL) {
       await axios.post(N8N_WEBHOOK_URL, {
-        usuario_email: usuario_email || 'sin-email@kahu.app',
+        usuario_email: req.user.email,
         nombre_perro: plan.mascota?.nombre || 'tu perro',
         ingredientes: plan.ingredientes,
         proporciones: plan.proporciones,

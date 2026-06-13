@@ -258,6 +258,7 @@ Mascotas de prueba con IDs `seed-mascota-0001` a `seed-mascota-0005` vinculadas 
 
 ## Backlog
 
+- Migrar autenticación a httpOnly cookies (mejora de seguridad: elimina el riesgo de robo de token vía XSS en localStorage)
 - Chat diferenciado: un agente para nutrición y otro para cuidados y adiestramiento
 - Historial veterinario con UI completa (ahora solo via agente)
 - Recordatorios de citas veterinarias y pesajes

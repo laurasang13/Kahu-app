@@ -5,6 +5,7 @@ import { useMascota } from '../../context/MascotaContext'
 import { useLanguage } from '../../hooks/useLanguage'
 import styles from './ChatPage.module.css'
 import ReactMarkdown from 'react-markdown'
+import rehypeSanitize from 'rehype-sanitize'
 
 export default function ChatPage() {
   const navigate = useNavigate()
@@ -63,7 +64,7 @@ export default function ChatPage() {
           <div key={i} className={`${styles.message} ${msg.rol === 'user' ? styles.userMsg : styles.aiMsg}`}>
             {msg.rol === 'assistant' && <span className={styles.aiAvatar}>🤖</span>}
             <div className={styles.msgBubble}>
-              <ReactMarkdown>{msg.mensaje}</ReactMarkdown>
+              <ReactMarkdown rehypePlugins={[rehypeSanitize]}>{msg.mensaje}</ReactMarkdown>
             </div>
           </div>
         ))}

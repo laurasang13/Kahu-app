@@ -62,9 +62,10 @@ const updateMascota = async (req, res, next) => {
     })
     if (!mascota) return res.status(404).json({ error: 'Mascota no encontrada' })
 
+    const { nombre, raza, peso_kg, edad_meses, sexo, alergias, tipo_dieta, num_tomas } = req.body
     const updated = await prisma.mascota.update({
       where: { id: req.params.id },
-      data: req.body
+      data: { nombre, raza, peso_kg, edad_meses, sexo, alergias, tipo_dieta, num_tomas }
     })
     res.json(updated)
   } catch (error) {
