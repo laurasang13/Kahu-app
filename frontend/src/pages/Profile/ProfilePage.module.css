@@ -8,6 +8,7 @@
   margin: 0 auto;
 }
 
+
 .header {
   display: flex;
   align-items: center;
@@ -48,6 +49,7 @@
   font-size: 12px;
   font-weight: 700;
   color: var(--olive-deep);
+  margin-right: 40px;
 }
 
 .main {

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useMascota } from '../../context/MascotaContext'
+import { useLanguage } from '../../hooks/useLanguage'
 import { api } from '../../services/api'
 import { MdArrowBack, MdMedicalServices, MdCalendarToday, MdEvent, MdDeleteOutline } from 'react-icons/md'
 import { CiHospital1 } from 'react-icons/ci'
@@ -12,6 +13,7 @@ export default function HistorialVetPage() {
   const navigate = useNavigate()
   const { mascotaId } = useParams()
   const { mascotas } = useMascota()
+  const { t } = useLanguage()
   const mascota = mascotas.find(m => m.id === mascotaId)
 
   const [registros, setRegistros] = useState([])
@@ -89,7 +91,7 @@ export default function HistorialVetPage() {
       <header className={styles.header}>
         <button className={styles.backBtn} onClick={() => navigate('/home')}><MdArrowBack /></button>
         <div className={styles.headerInfo}>
-          <h1 className={styles.headerTitle}>Historial veterinario</h1>
+          <h1 className={styles.headerTitle}>{t.vetHistory}</h1>
           {mascota && <span className={styles.headerSub}>{mascota.nombre}</span>}
         </div>
       </header>
@@ -99,23 +101,23 @@ export default function HistorialVetPage() {
         <div className={styles.divider} />
 
         <div className={styles.visitasHeader}>
-          <h2 className={styles.visitasTitle}><MdMedicalServices /> Visitas veterinarias</h2>
+          <h2 className={styles.visitasTitle}><MdMedicalServices /> {t.vetVisits}</h2>
           <button
             className={styles.addBtn}
             onClick={() => { setFormOpen(v => !v); setError('') }}
           >
-            {formOpen ? '✕' : '+ Nueva visita'}
+            {formOpen ? '✕' : t.newVisit}
           </button>
         </div>
 
         {formOpen && (
           <div className={styles.formCard}>
-            <h2 className={styles.formTitle}>Nueva visita</h2>
+            <h2 className={styles.formTitle}>{t.newVisit}</h2>
             {error && <p className={styles.error}>{error}</p>}
             <form onSubmit={handleSubmit} className={styles.form}>
               <div className={styles.row}>
                 <div className={styles.field}>
-                  <label className={styles.label}>Fecha de visita</label>
+                  <label className={styles.label}>{t.visitDate}</label>
                   <input
                     className={styles.input}
                     type="date"
@@ -126,7 +128,7 @@ export default function HistorialVetPage() {
                   />
                 </div>
                 <div className={styles.field}>
-                  <label className={styles.label}>Próxima cita (opcional)</label>
+                  <label className={styles.label}>{t.nextAppointment}</label>
                   <input
                     className={styles.input}
                     type="date"
@@ -138,46 +140,46 @@ export default function HistorialVetPage() {
               </div>
 
               <div className={styles.field}>
-                <label className={styles.label}>Motivo</label>
+                <label className={styles.label}>{t.reason}</label>
                 <input
                   className={styles.input}
                   type="text"
                   name="motivo"
                   value={form.motivo}
                   onChange={handleChange}
-                  placeholder="Revisión anual, vacunación..."
+                  placeholder={t.reasonPlaceholder}
                   required
                 />
               </div>
 
               <div className={styles.field}>
-                <label className={styles.label}>Descripción</label>
+                <label className={styles.label}>{t.description}</label>
                 <textarea
                   className={styles.textarea}
                   name="descripcion"
                   value={form.descripcion}
                   onChange={handleChange}
-                  placeholder="Descripción de la visita..."
+                  placeholder={t.descriptionPlaceholder}
                   rows={3}
                   required
                 />
               </div>
 
               <div className={styles.field}>
-                <label className={styles.label}>Tratamiento</label>
+                <label className={styles.label}>{t.treatment}</label>
                 <textarea
                   className={styles.textarea}
                   name="tratamiento"
                   value={form.tratamiento}
                   onChange={handleChange}
-                  placeholder="Medicación, pautas, observaciones..."
+                  placeholder={t.treatmentPlaceholder}
                   rows={3}
                   required
                 />
               </div>
 
               <button className={styles.btnPrimary} type="submit" disabled={saving}>
-                {saving ? 'Guardando...' : 'Guardar registro'}
+                {saving ? t.loading : t.saveRecord}
               </button>
             </form>
           </div>
@@ -188,9 +190,9 @@ export default function HistorialVetPage() {
         {!loading && registros.length === 0 && !formOpen && (
           <div className={styles.empty}>
             <CiHospital1 className={styles.emptyEmoji} />
-            <p className={styles.emptyText}>Aún no hay registros veterinarios.</p>
+            <p className={styles.emptyText}>{t.noVetRecords}</p>
             <button className={styles.btnPrimary} onClick={() => setFormOpen(true)}>
-              + Añadir primera visita
+              {t.addFirstVisit}
             </button>
           </div>
         )}
@@ -219,7 +221,7 @@ export default function HistorialVetPage() {
 
                 {r.proxima_cita && (
                   <div className={styles.nextVisit}>
-                    <MdEvent /> Próxima cita: {formatDate(r.proxima_cita)}
+                    <MdEvent /> {t.nextVisit}: {formatDate(r.proxima_cita)}
                   </div>
                 )}
               </div>

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { MdMedication, MdDeleteOutline, MdCheck } from 'react-icons/md'
 import { api } from '../../services/api'
+import { useLanguage } from '../../hooks/useLanguage'
 import styles from './Tratamientos.module.css'
 
 const FRECUENCIAS = [
@@ -12,6 +13,7 @@ const FRECUENCIAS = [
 ]
 
 export default function Tratamientos({ mascotaId }) {
+  const { t } = useLanguage()
   const [tratamientos, setTratamientos] = useState([])
   const [formOpen, setFormOpen] = useState(false)
   const [saving, setSaving] = useState(false)
@@ -105,18 +107,18 @@ export default function Tratamientos({ mascotaId }) {
     if (!proximaDosis) return 'Sin fecha programada'
     const diff = new Date(proximaDosis) - new Date()
     const days = Math.ceil(diff / (1000 * 60 * 60 * 24))
-    if (days < 0) return `Atrasado ${Math.abs(days)} días`
-    if (days === 0) return 'Hoy'
-    if (days === 1) return 'Mañana'
-    return `En ${days} días`
+    if (days < 0) return t.overdue.replace('{n}', Math.abs(days))
+    if (days === 0) return t.today
+    if (days === 1) return t.tomorrow
+    return t.daysLeft.replace('{n}', days)
   }
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.sectionHeader}>
-        <h2 className={styles.sectionTitle}><MdMedication /> Tratamientos</h2>
+        <h2 className={styles.sectionTitle}><MdMedication /> {t.treatments}</h2>
         <button className={styles.addBtn} onClick={() => { setFormOpen(v => !v); setError('') }}>
-          {formOpen ? '✕' : '+ Añadir'}
+          {formOpen ? '✕' : t.newTreatment}
         </button>
       </div>
 
@@ -125,20 +127,20 @@ export default function Tratamientos({ mascotaId }) {
           {error && <p className={styles.error}>{error}</p>}
           <form onSubmit={handleSubmit} className={styles.form}>
             <div className={styles.field}>
-              <label className={styles.label}>Nombre del tratamiento</label>
+              <label className={styles.label}>{t.treatmentName}</label>
               <input
                 className={styles.input}
                 type="text"
                 value={form.nombre}
                 onChange={e => setForm(prev => ({ ...prev, nombre: e.target.value }))}
-                placeholder="Ej: Pastilla antiparasitaria, Vacuna rabia..."
+                placeholder={t.treatmentNamePlaceholder}
                 required
               />
             </div>
 
             <div className={styles.row}>
               <div className={styles.field}>
-                <label className={styles.label}>Frecuencia</label>
+                <label className={styles.label}>{t.frequency}</label>
                 <select
                   className={styles.input}
                   value={customFreq ? 'custom' : form.frecuenciaPreset}
@@ -165,7 +167,7 @@ export default function Tratamientos({ mascotaId }) {
               )}
 
               <div className={styles.field}>
-                <label className={styles.label}>Última dosis (opcional)</label>
+                <label className={styles.label}>{t.lastDose}</label>
                 <input
                   className={styles.input}
                   type="date"
@@ -176,25 +178,25 @@ export default function Tratamientos({ mascotaId }) {
             </div>
 
             <div className={styles.field}>
-              <label className={styles.label}>Notas (opcional)</label>
+              <label className={styles.label}>{t.notes}</label>
               <input
                 className={styles.input}
                 type="text"
                 value={form.notas}
                 onChange={e => setForm(prev => ({ ...prev, notas: e.target.value }))}
-                placeholder="Marca, dosis, observaciones..."
+                placeholder={t.notesPlaceholder}
               />
             </div>
 
             <button className={styles.btnPrimary} type="submit" disabled={saving}>
-              {saving ? 'Guardando...' : 'Guardar tratamiento'}
+              {saving ? t.loading : t.saveTreatment}
             </button>
           </form>
         </div>
       )}
 
       {tratamientos.length === 0 && !formOpen && (
-        <p className={styles.empty}>Sin tratamientos registrados.</p>
+        <p className={styles.empty}>{t.noTreatments}</p>
       )}
 
       {tratamientos.length > 0 && (
@@ -213,11 +215,11 @@ export default function Tratamientos({ mascotaId }) {
 
                 <div className={styles.cardDates}>
                   <div className={styles.dateItem}>
-                    <span className={styles.dateLabel}>Última dosis</span>
+                    <span className={styles.dateLabel}>{t.lastDose}</span>
                     <span className={styles.dateVal}>{formatDate(t.ultima_dosis)}</span>
                   </div>
                   <div className={styles.dateItem}>
-                    <span className={styles.dateLabel}>Próxima dosis</span>
+                    <span className={styles.dateLabel}>{t.treatments}</span>
                     <span className={styles.dateVal}>{formatDate(t.proxima_dosis)}</span>
                   </div>
                   <div className={`${styles.badge} ${styles[`badge_${status}`]}`}>
@@ -226,7 +228,7 @@ export default function Tratamientos({ mascotaId }) {
                 </div>
 
                 <button className={styles.adminBtn} onClick={() => handleAdministrar(t.id)}>
-                  <MdCheck /> Administrado hoy
+                  <MdCheck /> {t.adminToday}
                 </button>
               </div>
             )

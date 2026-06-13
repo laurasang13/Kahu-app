@@ -3,9 +3,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--bg);
   padding: 24px;
   position: relative;
+  flex-direction: column;
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto; 
 }
 
 .langBtn {
@@ -21,6 +24,8 @@
   font-weight: 700;
   color: var(--olive-deep);
   letter-spacing: 0.05em;
+  margin-right: 40px;
+
 }
 
 .card {

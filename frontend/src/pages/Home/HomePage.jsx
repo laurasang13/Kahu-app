@@ -12,6 +12,8 @@ import WeatherAlert from '../../components/WeatherAlert/WeatherAlert'
 import TratamientoAlert from '../../components/TratamientoAlert/TratamientoAlert'
 import { MdPets, MdWarning, MdSmartToy, MdTrendingUp, MdLanguage, MdLogout } from 'react-icons/md'
 import { CiHospital1 } from 'react-icons/ci'
+import { PiChefHatLight, PiCookingPot  } from "react-icons/pi";
+
 
 
 export default function HomePage() {
@@ -72,7 +74,7 @@ export default function HomePage() {
 
       <main className={styles.main}>
         <div className={styles.greeting}>
-          <h1 className={styles.title}>{t.hello}, {usuario?.nombre} 👋</h1>
+          <h1 className={styles.title}>{t.hello}, {usuario?.nombre} </h1>
           <p className={styles.subtitle}>{t.homeSubtitle}</p>
         </div>
 
@@ -105,7 +107,7 @@ export default function HomePage() {
                   {mascotaActiva.alergias && <p className={styles.activeAllergy}><MdWarning /> {t.allergies}: {mascotaActiva.alergias}</p>}
                 </div>
                 <button className={styles.chatBtn} onClick={() => navigate('/chat')}>
-                  <MdSmartToy /> {t.chatWithKahu}
+                  <PiChefHatLight /> {t.chatWithKahu}
                 </button>
                 <button className={styles.vetBtn} onClick={() => navigate(`/historial/${mascotaActiva.id}`)}>
                   <CiHospital1 /> Historial veterinario

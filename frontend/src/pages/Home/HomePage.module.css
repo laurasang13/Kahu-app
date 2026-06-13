@@ -5,6 +5,7 @@
   flex-direction: column;
   width: 100%;
   max-width: 860px;
+  margin: 0 auto;
 }
 
 .header {
@@ -22,19 +23,14 @@
   margin-left: calc(-50vw + 50%);
 }
 
-.logo { width: 60px; height: auto; }
+.logo { 
+  width: 60px;
+  height: auto;
+  margin-left: 10px; 
+}
 
 .headerRight { display: flex; align-items: center; gap: 10px; margin-left: auto; }
 
-.langBtn {
-  background: var(--surface);
-  border: 1.5px solid var(--line);
-  border-radius: 999px;
-  padding: 6px 12px;
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--olive-deep);
-}
 
 .logoutBtn {
   background: none;
@@ -59,6 +55,7 @@
   padding: 6px;
   width: 36px;
   height: 36px;
+  margin-right: 20px;
 }
 
 .bar {
