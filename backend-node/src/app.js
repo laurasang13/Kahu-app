@@ -11,6 +11,7 @@ const planesRoutes = require('./routes/planesRoutes')
 const historialVetRoutes = require('./routes/historialVetRoutes')
 const chatRoutes = require('./routes/chatRoutes')
 const pesoRoutes = require('./routes/pesoRoutes')
+const tratamientosRoutes = require('./routes/tratamientosRoutes')
 
 dotenv.config()
 
@@ -32,6 +33,7 @@ app.use('/api/planes', planesRoutes)
 app.use('/api/historial-vet', historialVetRoutes)
 app.use('/api/chat', chatRoutes)
 app.use('/api/peso', pesoRoutes)
+app.use('/api/tratamientos', tratamientosRoutes)
 
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', service: 'kahu-node' })

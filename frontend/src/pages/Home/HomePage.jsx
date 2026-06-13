@@ -83,6 +83,9 @@ export default function HomePage() {
                 <button className={styles.chatBtn} onClick={() => navigate('/chat')}>
                   🤖 {t.chatWithKahu}
                 </button>
+                <button className={styles.vetBtn} onClick={() => navigate(`/historial/${mascotaActiva.id}`)}>
+                  🏥 Historial veterinario
+                </button>
               </div>
             )}
           </>

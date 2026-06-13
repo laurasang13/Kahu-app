@@ -14,6 +14,7 @@ import ChatPage from './pages/Chat/ChatPage'
 import ProfilePage from './pages/Profile/ProfilePage'
 import NewPetPage from './pages/NewPet/NewPetPage'
 import MenusPage from './pages/MenuPage/MenusPage'
+import HistorialVetPage from './pages/HistorialVet/HistorialVetPage'
 
 function PrivateRoute({ children }) {
   const { usuario, loading } = useAuth()
@@ -54,6 +55,11 @@ function AppRoutes() {
       <Route path="/menus/:mascotaId" element={
         <PrivateRoute>
           <MenusPage />
+        </PrivateRoute>
+      } />
+      <Route path="/historial/:mascotaId" element={
+        <PrivateRoute>
+          <HistorialVetPage />
         </PrivateRoute>
       } />
     </Routes>

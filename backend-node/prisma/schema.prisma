@@ -40,6 +40,7 @@ model Mascota {
   historial_vet  HistorialVeterinario[]
   chat_historial ChatHistorial[]
   registros_peso RegistroPeso[]
+  tratamientos   Tratamiento[]
 }
 
 model PlanNutricional {
@@ -81,4 +82,17 @@ model RegistroPeso {
   mascota    Mascota  @relation(fields: [mascota_id], references: [id])
   peso_kg    Float
   fecha      DateTime @default(now())
+}
+
+model Tratamiento {
+  id              String    @id @default(uuid())
+  mascota_id      String
+  mascota         Mascota   @relation(fields: [mascota_id], references: [id])
+  nombre          String
+  frecuencia_dias Int
+  ultima_dosis    DateTime?
+  proxima_dosis   DateTime?
+  notas           String?
+  activo          Boolean   @default(true)
+  created_at      DateTime  @default(now())
 }

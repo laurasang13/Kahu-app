@@ -153,6 +153,23 @@
 
 .chatBtn:active { transform: scale(0.97); }
 
+.vetBtn {
+  width: 100%;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--olive);
+  background: transparent;
+  color: var(--olive-deep);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.vetBtn:hover { background: var(--hero-bg); }
+.vetBtn:active { transform: scale(0.97); }
+
 .emptyState {
   display: flex;
   flex-direction: column;
