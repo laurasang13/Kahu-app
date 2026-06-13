@@ -2,9 +2,9 @@ import { useWeather } from '../../hooks/useWeather'
 import styles from './WeatherAlert.module.css'
 
 const MENSAJES = {
-  ok:      (nombre) => `🐾 Temperatura perfecta para pasear con ${nombre}`,
-  warning: (nombre) => `⚠️ Cuidado con las patitas de ${nombre}, el suelo puede estar caliente`,
-  danger:  (nombre) => `🚫 Evita salir ahora con ${nombre}, riesgo de golpe de calor`,
+  ok:      (n) => `🐾 Temperatura perfecta para pasear con ${n}`,
+  warning: (n) => `⚠️ Cuidado con las patitas de ${n}, el suelo puede estar caliente`,
+  danger:  (n) => `🚫 Evita salir ahora con ${n}, riesgo de golpe de calor`,
 }
 
 export default function WeatherAlert({ ciudad, nombreMascota }) {

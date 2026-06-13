@@ -1,6 +1,7 @@
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useUI } from '../../context/UIContext'
 import { useMascota } from '../../context/MascotaContext'
+import { MdHome, MdChat, MdMonitorWeight, MdPerson } from 'react-icons/md'
 import styles from './Navbar.module.css'
 
 export default function Navbar() {
@@ -14,23 +15,23 @@ export default function Navbar() {
       <button
         className={`${styles.navItem} ${location.pathname === '/home' ? styles.active : ''}`}
         onClick={() => navigate('/home')}>
-        <span className={styles.navIcon}>🏠</span>
+        <MdHome className={styles.navIcon} />
       </button>
       <button
         className={`${styles.navItem} ${location.pathname === '/chat' ? styles.active : ''}`}
         onClick={() => navigate('/chat')}>
-        <span className={styles.navIcon}>💬</span>
+        <MdChat className={styles.navIcon} />
       </button>
       <button
         className={styles.navItem}
         onClick={() => setPesoModal(true)}
         disabled={!mascotaActiva}>
-        <span className={styles.navIcon}>⚖️</span>
+        <MdMonitorWeight className={styles.navIcon} />
       </button>
       <button
         className={`${styles.navItem} ${location.pathname === '/profile' ? styles.active : ''}`}
         onClick={() => navigate('/profile')}>
-        <span className={styles.navIcon}>👤</span>
+        <MdPerson className={styles.navIcon} />
       </button>
     </nav>
   )

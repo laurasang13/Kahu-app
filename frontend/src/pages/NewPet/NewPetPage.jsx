@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useMascota } from '../../context/MascotaContext'
 import { useLanguage } from '../../hooks/useLanguage'
+import { MdPets } from 'react-icons/md'
 import styles from './NewPetPage.module.css'
 
 export default function NewPetPage() {
@@ -50,7 +51,7 @@ export default function NewPetPage() {
       </button>
       <div className={styles.card}>
         <div className={styles.header}>
-          <span className={styles.emoji}>🐾</span>
+          <MdPets className={styles.emoji} />
           <h1 className={styles.title}>{t.newPetTitle}</h1>
           <p className={styles.subtitle}>{t.newPetSubtitle}</p>
         </div>

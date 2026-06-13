@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useMascota } from '../../context/MascotaContext'
 import { api } from '../../services/api'
+import { MdArrowBack, MdMedicalServices, MdCalendarToday, MdEvent, MdDeleteOutline } from 'react-icons/md'
+import { CiHospital1 } from 'react-icons/ci'
 import Navbar from '../../components/Navbar/Navbar'
 import Tratamientos from '../../components/Tratamientos/Tratamientos'
 import styles from './HistorialVetPage.module.css'
@@ -85,7 +87,7 @@ export default function HistorialVetPage() {
   return (
     <div className={styles.container}>
       <header className={styles.header}>
-        <button className={styles.backBtn} onClick={() => navigate('/home')}>←</button>
+        <button className={styles.backBtn} onClick={() => navigate('/home')}><MdArrowBack /></button>
         <div className={styles.headerInfo}>
           <h1 className={styles.headerTitle}>Historial veterinario</h1>
           {mascota && <span className={styles.headerSub}>{mascota.nombre}</span>}
@@ -97,7 +99,7 @@ export default function HistorialVetPage() {
         <div className={styles.divider} />
 
         <div className={styles.visitasHeader}>
-          <h2 className={styles.visitasTitle}>🩺 Visitas veterinarias</h2>
+          <h2 className={styles.visitasTitle}><MdMedicalServices /> Visitas veterinarias</h2>
           <button
             className={styles.addBtn}
             onClick={() => { setFormOpen(v => !v); setError('') }}
@@ -185,7 +187,7 @@ export default function HistorialVetPage() {
 
         {!loading && registros.length === 0 && !formOpen && (
           <div className={styles.empty}>
-            <span className={styles.emptyEmoji}>🏥</span>
+            <CiHospital1 className={styles.emptyEmoji} />
             <p className={styles.emptyText}>Aún no hay registros veterinarios.</p>
             <button className={styles.btnPrimary} onClick={() => setFormOpen(true)}>
               + Añadir primera visita
@@ -199,10 +201,10 @@ export default function HistorialVetPage() {
               <div key={r.id} className={styles.card}>
                 <div className={styles.cardHeader}>
                   <div>
-                    <span className={styles.cardDate}>📅 {formatDate(r.fecha_visita)}</span>
+                    <span className={styles.cardDate}><MdCalendarToday /> {formatDate(r.fecha_visita)}</span>
                     <h3 className={styles.cardMotivo}>{r.motivo}</h3>
                   </div>
-                  <button className={styles.deleteBtn} onClick={() => handleDelete(r.id)}>🗑</button>
+                  <button className={styles.deleteBtn} onClick={() => handleDelete(r.id)}><MdDeleteOutline /></button>
                 </div>
 
                 <div className={styles.cardSection}>
@@ -217,7 +219,7 @@ export default function HistorialVetPage() {
 
                 {r.proxima_cita && (
                   <div className={styles.nextVisit}>
-                    🗓 Próxima cita: {formatDate(r.proxima_cita)}
+                    <MdEvent /> Próxima cita: {formatDate(r.proxima_cita)}
                   </div>
                 )}
               </div>

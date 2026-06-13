@@ -10,6 +10,8 @@ import MenuCard from '../../components/MenuCard/MenuCard'
 import { useUI } from '../../context/UIContext'
 import WeatherAlert from '../../components/WeatherAlert/WeatherAlert'
 import TratamientoAlert from '../../components/TratamientoAlert/TratamientoAlert'
+import { MdPets, MdWarning, MdSmartToy, MdTrendingUp, MdLanguage, MdLogout } from 'react-icons/md'
+import { CiHospital1 } from 'react-icons/ci'
 
 
 export default function HomePage() {
@@ -55,11 +57,11 @@ export default function HomePage() {
                 <div className={styles.menuOverlay} onClick={() => setMenuOpen(false)} />
                 <div className={styles.dropdown}>
                   <button className={styles.dropdownItem} onClick={() => { toggleLang(); setMenuOpen(false) }}>
-                    🌐 {lang === 'es' ? 'English' : 'Español'}
+                    <MdLanguage /> {lang === 'es' ? 'English' : 'Español'}
                   </button>
                   <div className={styles.dropdownDivider} />
                   <button className={styles.dropdownItem} onClick={handleLogout}>
-                    🚪 {t.logout}
+                    <MdLogout /> {t.logout}
                   </button>
                 </div>
               </>
@@ -85,7 +87,7 @@ export default function HomePage() {
                     className={`${styles.petCard} ${mascotaActiva?.id === m.id ? styles.petActive : ''}`}
                     onClick={() => setMascotaActiva(m)}
                   >
-                    <span className={styles.petEmoji}>🐾</span>
+                    <MdPets className={styles.petEmoji} />
                     <div>
                       <div className={styles.petName}>{m.nombre}</div>
                       <div className={styles.petBreed}>{m.raza}</div>
@@ -100,13 +102,13 @@ export default function HomePage() {
                 <div className={styles.activeInfo}>
                   <h3 className={styles.activeName}>{mascotaActiva.nombre}</h3>
                   <p className={styles.activeMeta}>{mascotaActiva.raza} · {mascotaActiva.peso_kg}kg · {mascotaActiva.edad_meses} {t.months}</p>
-                  {mascotaActiva.alergias && <p className={styles.activeAllergy}>⚠️ {t.allergies}: {mascotaActiva.alergias}</p>}
+                  {mascotaActiva.alergias && <p className={styles.activeAllergy}><MdWarning /> {t.allergies}: {mascotaActiva.alergias}</p>}
                 </div>
                 <button className={styles.chatBtn} onClick={() => navigate('/chat')}>
-                  🤖 {t.chatWithKahu}
+                  <MdSmartToy /> {t.chatWithKahu}
                 </button>
                 <button className={styles.vetBtn} onClick={() => navigate(`/historial/${mascotaActiva.id}`)}>
-                  🏥 Historial veterinario
+                  <CiHospital1 /> Historial veterinario
                 </button>
               </div>
             )}
@@ -125,7 +127,7 @@ export default function HomePage() {
           </>
         ) : (
           <div className={styles.emptyState}>
-            <span className={styles.emptyEmoji}>🐕</span>
+            <MdPets className={styles.emptyEmoji} />
             <p className={styles.emptyText}>{t.noPets}</p>
             <button className={styles.addBtn} onClick={() => navigate('/newpet')}>{t.addPet}</button>
           </div>
@@ -150,7 +152,7 @@ export default function HomePage() {
 
         {mascotaActiva && (
           <div className={styles.section}>
-            <h2 className={styles.sectionTitle}>📈 Evolución del peso</h2>
+            <h2 className={styles.sectionTitle}><MdTrendingUp /> Evolución del peso</h2>
             <div className={styles.chartCard}>
               <PesoChart mascotaId={mascotaActiva.id} readOnly />
             </div>

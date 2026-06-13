@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useMascota } from '../../context/MascotaContext'
 import { useLanguage } from '../../hooks/useLanguage'
+import { MdArrowBack, MdRestaurant } from 'react-icons/md'
 import MenuCard from '../../components/MenuCard/MenuCard'
 import Navbar from '../../components/Navbar/Navbar'
 import styles from './MenusPage.module.css'
@@ -42,7 +43,7 @@ export default function MenusPage() {
   return (
     <div className={styles.container}>
       <header className={styles.header}>
-        <button className={styles.backBtn} onClick={() => navigate('/profile')}>←</button>
+        <button className={styles.backBtn} onClick={() => navigate('/profile')}><MdArrowBack /></button>
         <div className={styles.headerInfo}>
           <h1 className={styles.headerTitle}>{t.savedMenus}</h1>
           {mascota && <span className={styles.headerSub}>{mascota.nombre}</span>}
@@ -55,7 +56,7 @@ export default function MenusPage() {
 
         {!loading && planes.length === 0 && (
           <div className={styles.empty}>
-            <span className={styles.emptyEmoji}>🍽️</span>
+            <MdRestaurant className={styles.emptyEmoji} />
             <p className={styles.emptyText}>{t.noMenus}</p>
             <button className={styles.chatBtn} onClick={() => navigate('/chat')}>
               {t.goToChat}

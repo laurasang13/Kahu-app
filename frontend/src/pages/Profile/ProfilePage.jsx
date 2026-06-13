@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { useMascota } from '../../context/MascotaContext'
 import { useLanguage } from '../../hooks/useLanguage'
+import { MdArrowBack, MdEdit, MdDeleteOutline, MdWarning } from 'react-icons/md'
 import styles from './ProfilePage.module.css'
 import Navbar from '../../components/Navbar/Navbar'
 
@@ -51,7 +52,7 @@ export default function ProfilePage() {
   return (
     <div className={styles.container}>
       <header className={styles.header}>
-        <button className={styles.backBtn} onClick={() => navigate('/home')}>←</button>
+        <button className={styles.backBtn} onClick={() => navigate('/home')}><MdArrowBack /></button>
         <h1 className={styles.headerTitle}>{t.profile}</h1>
         <button className={styles.langBtn} onClick={toggleLang}>{lang === 'es' ? 'EN' : 'ES'}</button>
       </header>
@@ -115,12 +116,12 @@ export default function ProfilePage() {
                   <div className={styles.petHeader}>
                     <span className={styles.petName}>{mascota.nombre}</span>
                     <div className={styles.petActions}>
-                      <button className={styles.editBtn} onClick={() => handleEdit(mascota)}>✏️</button>
-                      <button className={styles.deleteBtn} onClick={() => handleDelete(mascota.id)}>🗑️</button>
+                      <button className={styles.editBtn} onClick={() => handleEdit(mascota)}><MdEdit /></button>
+                      <button className={styles.deleteBtn} onClick={() => handleDelete(mascota.id)}><MdDeleteOutline /></button>
                     </div>
                   </div>
                   <p className={styles.petMeta}>{mascota.raza} · {mascota.peso_kg}kg · {mascota.edad_meses} {t.months}</p>
-                  {mascota.alergias && <p className={styles.petAllergy}>⚠️ {mascota.alergias}</p>}
+                  {mascota.alergias && <p className={styles.petAllergy}><MdWarning /> {mascota.alergias}</p>}
                 </div>
               )}
             </div>

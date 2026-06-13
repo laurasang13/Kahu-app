@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import rehypeSanitize from 'rehype-sanitize'
+import { MdFileDownload, MdDeleteOutline } from 'react-icons/md'
 import styles from './MenuCard.module.css'
 import { useAuth } from '../../context/AuthContext'
 import { api } from '../../services/api'
@@ -33,8 +34,8 @@ export default function MenuCard({ plan, onDelete }) {
       <div className={styles.header}>
         <span className={styles.date}>{fecha}</span>
         <div className={styles.actions}>
-          <button className={styles.downloadBtn} onClick={handleDownload}>⬇️</button>
-          <button className={styles.deleteBtn} onClick={handleDelete}>🗑️</button>
+          <button className={styles.downloadBtn} onClick={handleDownload}><MdFileDownload /></button>
+          <button className={styles.deleteBtn} onClick={handleDelete}><MdDeleteOutline /></button>
         </div>
       </div>
       <div className={styles.kcal}>

@@ -7,9 +7,15 @@
 .banner {
   display: flex;
   align-items: center;
+  gap: 10px;
   padding: 14px 16px;
   border-radius: var(--radius-sm);
   animation: kahuFade 0.3s ease;
+}
+
+.icon {
+  font-size: 18px;
+  flex-shrink: 0;
 }
 
 .warning {

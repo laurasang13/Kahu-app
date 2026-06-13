@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { MdMedication, MdDeleteOutline, MdCheck } from 'react-icons/md'
 import { api } from '../../services/api'
 import styles from './Tratamientos.module.css'
 
@@ -113,7 +114,7 @@ export default function Tratamientos({ mascotaId }) {
   return (
     <div className={styles.wrapper}>
       <div className={styles.sectionHeader}>
-        <h2 className={styles.sectionTitle}>💊 Tratamientos</h2>
+        <h2 className={styles.sectionTitle}><MdMedication /> Tratamientos</h2>
         <button className={styles.addBtn} onClick={() => { setFormOpen(v => !v); setError('') }}>
           {formOpen ? '✕' : '+ Añadir'}
         </button>
@@ -207,7 +208,7 @@ export default function Tratamientos({ mascotaId }) {
                     <span className={styles.cardName}>{t.nombre}</span>
                     {t.notas && <span className={styles.cardNotas}>{t.notas}</span>}
                   </div>
-                  <button className={styles.deleteBtn} onClick={() => handleDelete(t.id)}>🗑</button>
+                  <button className={styles.deleteBtn} onClick={() => handleDelete(t.id)}><MdDeleteOutline /></button>
                 </div>
 
                 <div className={styles.cardDates}>
@@ -225,7 +226,7 @@ export default function Tratamientos({ mascotaId }) {
                 </div>
 
                 <button className={styles.adminBtn} onClick={() => handleAdministrar(t.id)}>
-                  ✓ Administrado hoy
+                  <MdCheck /> Administrado hoy
                 </button>
               </div>
             )
